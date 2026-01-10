@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Tập Cộng Nhẩm - Dãy Số Cách Đều</title>
+    <link rel="icon" href="https://img.icons8.com/color/48/calculator.png" type="image/png">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #0ea5e9;
+            --success: #22c55e;
+            --error: #ef4444;
+            --bg: #f8fafc;
+            --timer-bg: #fff1f2;
+            --timer-text: #be123c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            color: #334155;
+            padding-top: 80px; /* Để chừa chỗ cho thanh header dính */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* HEADER DÍNH (Sticky Header) để luôn nhìn thấy đồng hồ */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        /* ĐỒNG HỒ ĐẾM GIỜ */
+        .timer-badge {
+            background-color: var(--timer-bg);
+            color: var(--timer-text);
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #fda4af;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .student-info-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .student-input {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 2px solid #cbd5e1;
+            width: 70%;
+            max-width: 300px;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .student-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--secondary);
+        }
+
+        .exercise-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sequence-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .num-box {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+
+        input.num-input {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #334155;
+            transition: all 0.2s;
+            background: white;
+            -moz-appearance: textfield;
+        }
+
+        input.num-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            outline: none;
+        }
+
+        input.num-input::-webkit-outer-spin-button,
+        input.num-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .correct {
+            background-color: #dcfce7 !important;
+            border-color: var(--success) !important;
+            color: #15803d !important;
+        }
+
+        .incorrect {
+            background-color: #fee2e2 !important;
+            border-color: var(--error) !important;
+            color: #b91c1c !important;
+        }
+
+        .btn-submit {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            background-color: #4338ca;
+        }
+
+        /* POPUP KẾT QUẢ */
+        #result-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .result-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #f0f9ff;
+            border: 5px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0 auto 20px auto;
+        }
+
+        .result-detail {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .num-box, input.num-input { width: 35px; height: 35px; font-size: 0.9rem; }
+            .container { padding-bottom: 100px; }
+            .app-title { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sticky-header">
+    <h3 class="app-title">Lớp 4A - Thầy Tuyến</h3>
+    <div class="timer-badge">
+        <span>⏱</span> <span id="timerDisplay">00:00</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="student-info-area">
+        <h1 style="margin-bottom: 5px; color: var(--primary);">LUYỆN CỘNG NHẨM</h1>
+        <p style="margin-top: 0; color: #64748b;">Điền số thích hợp vào chỗ trống</p>
+        <input type="text" id="studentName" class="student-input" placeholder="Nhập họ và tên của em..." required>
+    </div>
+
+    <div id="exercises-container"></div>
+
+    <button type="button" class="btn-submit" id="submitBtn" onclick="submitQuiz()">
+        <div class="loader" id="btnLoader"></div>
+        <span id="btnText">NỘP BÀI</span>
+    </button>
+</div>
+
+<div id="result-overlay">
+    <div class="result-modal">
+        <div class="score-circle" id="finalScore">0/0</div>
+        
+        <h2 id="finalGrade" style="margin: 5px 0;"></h2>
+        <div id="finalGradeBadge" class="grade-badge"></div>
+
+        <div class="result-detail">
+            <span style="color:#64748b;">Thời gian làm bài:</span><br>
+            <strong id="finalTime" style="font-size: 1.3rem; color: #be123c;">00:00</strong>
+        </div>
+
+        <div id="db-status" style="margin-top:10px; font-size: 0.9rem;"></div>
+        
+        <button onclick="closeResult()" style="margin-top:20px; padding:10px 30px; border-radius:25px; border:none; background:#cbd5e1; cursor:pointer; font-weight:bold; color:#334155;">Xem lại bài làm</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+    // 1. CẤU HÌNH FIREBASE (Dự án baikiemtracuoiki)
+    const firebaseConfig = {
+        apiKey: "AIzaSyA77lLi_JCLIdR535KEfg3S0_Ge2EorPMo",
+        authDomain: "baikiemtracuoiki.firebaseapp.com",
+        projectId: "baikiemtracuoiki",
+        storageBucket: "baikiemtracuoiki.firebasestorage.app",
+        messagingSenderId: "953819948776",
+        appId: "1:953819948776:web:4e9a017a6c5fc10ed28b5d",
+        measurementId: "G-KHRHMJQ9DT"
+    };
+
+    let db;
+    try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        console.log("Firebase connected!");
+    } catch (e) {
+        console.error("Firebase error:", e);
+    }
+
+    // 2. DỮ LIỆU ĐỀ BÀI
+    const exercisesData = [
+        { id: 1, step: 2, start: [21, 23], title: "Bài 1: Cộng thêm 2" },
+        { id: 2, step: 3, start: [12, 15], title: "Bài 2: Cộng thêm 3" },
+        { id: 3, step: 4, start: [14, 18], title: "Bài 3: Cộng thêm 4" },
+        { id: 4, step: 5, start: [15, 20], title: "Bài 4: Cộng thêm 5" },
+        { id: 5, step: 6, start: [13, 19], title: "Bài 5: Cộng thêm 6" },
+        { id: 6, step: 7, start: [11, 18], title: "Bài 6: Cộng thêm 7" },
+        { id: 7, step: 8, start: [15, 23], title: "Bài 7: Cộng thêm 8" },
+        { id: 8, step: 9, start: [12, 21], title: "Bài 8: Cộng thêm 9 (Dạng 1)" },
+        { id: 9, step: 9, start: [19, 28], title: "Bài 9: Cộng thêm 9 (Dạng 2)" }
+    ];
+
+    const TOTAL_BLANKS_PER_EXERCISE = 18;
+
+    // 3. XỬ LÝ ĐỒNG HỒ ĐẾM GIỜ
+    let timerInterval;
+    let secondsElapsed = 0;
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            secondsElapsed++;
+            document.getElementById('timerDisplay').innerText = formatTime(secondsElapsed);
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+
+    function formatTime(totalSeconds) {
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    // 4. TẠO GIAO DIỆN
+    function renderExercises() {
+        const container = document.getElementById('exercises-container');
+        let html = '';
+
+        exercisesData.forEach((ex, index) => {
+            html += `
+                <div class="exercise-card">
+                    <div class="exercise-title">
+                        <span>${ex.title}</span>
+                    </div>
+                    <div class="sequence-container">
+                        <div class="num-box">${ex.start[0]}</div>
+                        <div class="num-box">${ex.start[1]}</div>
+                        ${generateInputs(ex.id, TOTAL_BLANKS_PER_EXERCISE)}
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        
+        // Bắt đầu đếm giờ ngay khi tải xong
+        startTimer();
+    }
+
+    function generateInputs(exId, count) {
+        let inputs = '';
+        for (let i = 0; i < count; i++) {
+            inputs += `<input type="number" class="num-input" id="ex-${exId}-in-${i}" placeholder="?">`;
+        }
+        return inputs;
+    }
+
+    // 5. CHẤM ĐIỂM
+    async function submitQuiz() {
+        const name = document.getElementById('studentName').value.trim();
+        if (!name) {
+            alert("Em hãy nhập tên trước khi nộp bài nhé!");
+            document.getElementById('studentName').focus();
+            return;
+        }
+
+        // Dừng đồng hồ
+        stopTimer();
+        const finalTimeString = formatTime(secondsElapsed);
+
+        const btn = document.getElementById('submitBtn');
+        const loader = document.getElementById('btnLoader');
+        btn.disabled = true;
+        loader.style.display = 'inline-block';
+
+        let totalCorrect = 0;
+        let totalQuestions = exercisesData.length * TOTAL_BLANKS_PER_EXERCISE;
+        let details = [];
+
+        exercisesData.forEach(ex => {
+            let currentVal = ex.start[1];
+            let exerciseCorrectCount = 0;
+
+            for (let i = 0; i < TOTAL_BLANKS_PER_EXERCISE; i++) {
+                currentVal = currentVal + ex.step;
+                const inputEl = document.getElementById(`ex-${ex.id}-in-${i}`);
+                const studentVal = parseInt(inputEl.value);
+
+                if (studentVal === currentVal) {
+                    totalCorrect++;
+                    exerciseCorrectCount++;
+                    inputEl.classList.add('correct');
+                    inputEl.classList.remove('incorrect');
+                } else {
+                    inputEl.classList.add('incorrect');
+                    inputEl.classList.remove('correct');
+                }
+            }
+            details.push({ bai: ex.id, dung: exerciseCorrectCount });
+        });
+
+        // XẾP LOẠI
+        const percentage = (totalCorrect / totalQuestions) * 100;
+        let gradeText = "";
+        let gradeColor = "";
+        
+        if (percentage >= 90) { gradeText = "Xuất Sắc!"; gradeColor = "#22c55e"; }
+        else if (percentage >= 75) { gradeText = "Giỏi Quá!"; gradeColor = "#3b82f6"; }
+        else if (percentage >= 50) { gradeText = "Khá Tốt!"; gradeColor = "#eab308"; }
+        else { gradeText = "Cần Cố Gắng!"; gradeColor = "#ef4444"; }
+
+        // HIỂN THỊ KẾT QUẢ
+        document.getElementById('finalScore').innerText = `${totalCorrect}/${totalQuestions}`;
+        document.getElementById('finalTime').innerText = finalTimeString;
+        document.getElementById('finalGrade').innerText = gradeText;
+        document.getElementById('finalGradeBadge').style.backgroundColor = gradeColor;
+        document.getElementById('finalGradeBadge').innerText = `${Math.round(percentage)}%`;
+
+        document.getElementById('result-overlay').style.display = 'flex';
+
+        // GỬI FIREBASE
+        const statusDiv = document.getElementById('db-status');
+        if (db) {
+            try {
+                await addDoc(collection(db, "on_tap_cong_nham"), {
+                    ten_hoc_sinh: name,
+                    diem_so: totalCorrect,
+                    tong_so_o: totalQuestions,
+                    thoi_gian_lam_bai: finalTimeString, // Lưu chuỗi "05:30"
+                    thoi_gian_giay: secondsElapsed,     // Lưu số giây (để sắp xếp nếu cần)
+                    xep_loai: gradeText,
+                    ngay_nop: serverTimestamp(),
+                    chi_tiet: details
+                });
+                statusDiv.innerHTML = "<span style='color:green; font-weight:bold'>✔ Đã lưu kết quả thành công!</span>";
+            } catch (error) {
+                console.error(error);
+                statusDiv.innerHTML = "<span style='color:red'>Lỗi gửi bài (Kiểm tra Rules).</span>";
+            }
+        } else {
+            statusDiv.innerHTML = "Chưa kết nối CSDL.";
+        }
+
+        btn.disabled = false;
+        loader.style.display = 'none';
+        document.getElementById('btnText').innerText = "ĐÃ NỘP BÀI";
+    }
+
+    // Đưa hàm ra ngoài global
+    window.submitQuiz = submitQuiz;
+    window.closeResult = function() {
+        document.getElementById('result-overlay').style.display = 'none';
+    }
+
+    // Chạy app
+    renderExercises();
+
+</script>
+
+</body>
+</html>
