@@ -7,11 +7,15 @@
     <link rel="icon" href="https://img.icons8.com/color/48/book.png">
     <style>
         :root { --primary: #ea580c; --secondary: #fb923c; --success: #22c55e; --error: #ef4444; --bg: #fff7ed; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #431407; padding-top: 80px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #431407; padding-top: 80px; }
         .container { max-width: 800px; margin: 0 auto; }
         .sticky-header { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .app-title { font-weight: bold; font-size: 1.1rem; color: var(--primary); margin: 0; text-transform: uppercase; }
+        .timer-badge { background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af; }
+
+        .student-info { margin-bottom: 20px; text-align: center; }
         
+        /* Select Box */
         .student-select { 
             padding: 12px 25px; border-radius: 50px; border: 2px solid #fdba74; 
             width: 80%; max-width: 400px; font-size: 1.1rem; outline: none; 
@@ -19,7 +23,8 @@
         }
         .student-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); }
 
-        .student-info { margin-bottom: 20px; text-align: center; }
+        /* Câu hỏi */
+        .hidden { display: none !important; }
         .question-card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
         .question-number { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.9rem; text-transform: uppercase; }
         .question-text { font-size: 1.15rem; margin-bottom: 20px; font-weight: 600; }
@@ -31,7 +36,6 @@
         .option-label.incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #7f1d1d !important; }
         .explanation { margin-top: 20px; padding: 15px; background-color: #eff6ff; border-radius: 8px; display: none; font-size: 0.95rem; color: #1e40af; }
         
-        .hidden { display: none !important; }
         .btn-action { background: linear-gradient(135deg, #ea580c, #c2410c); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; width: 100%; max-width: 300px; transition: 0.3s; }
         .btn-start { background: #22c55e; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); animation: pulse 2s infinite; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
@@ -117,12 +121,14 @@
     ];
 
     const selectBox = document.getElementById('studentName');
-    DANH_SACH_LOP.forEach(ten => {
-        const option = document.createElement('option');
-        option.value = ten;
-        option.text = ten;
-        selectBox.appendChild(option);
-    });
+    if(selectBox) {
+        DANH_SACH_LOP.forEach(ten => {
+            const option = document.createElement('option');
+            option.value = ten;
+            option.text = ten;
+            selectBox.appendChild(option);
+        });
+    }
 
     const questions = [
         { id: 1, text: "Câu nào dưới đây tuân thủ đúng cấu trúc: Thời gian + Địa điểm + Chủ ngữ + Hoạt động?", options: ["Sáng nay, mẹ em đi chợ tại siêu thị.", "Ở sân trường, sáng thứ hai, chúng em chào cờ.", "Sáng thứ hai, ở sân trường, chúng em chào cờ.", "Chúng em chào cờ sáng thứ hai ở sân trường."], correct: 2, explain: "Đáp án đúng là C: Sáng thứ hai (TG) + ở sân trường (ĐĐ) + chúng em (CN) + chào cờ (HĐ)." },
@@ -151,26 +157,10 @@
     let secondsElapsed = 0;
     let isSubmitting = false;
 
-    window.startExam = function() {
-        const name = document.getElementById('studentName').value;
-        if (!name) { alert("Em chưa chọn tên kìa!"); return; }
-
-        document.getElementById('startBtn').classList.add('hidden');
-        document.getElementById('examArea').classList.remove('hidden');
-        document.getElementById('studentName').disabled = true;
-
-        timerInterval = setInterval(() => {
-            secondsElapsed++;
-            const m = Math.floor(secondsElapsed / 60);
-            const s = secondsElapsed % 60;
-            document.getElementById('timerDisplay').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-        }, 1000);
-    };
-
-    function stopTimer() { clearInterval(timerInterval); }
-
+    // Render câu hỏi ngay khi tải trang
     function renderQuiz() {
         const container = document.getElementById('questions-container');
+        if(!container) return;
         let html = '';
         questions.forEach((q, index) => {
             html += `
@@ -186,6 +176,26 @@
         container.innerHTML = html;
     }
 
+    // Bắt đầu làm bài
+    window.startExam = function() {
+        const name = document.getElementById('studentName').value;
+        if (!name) { alert("Em chưa chọn tên kìa!"); return; }
+
+        document.getElementById('startBtn').classList.add('hidden'); // Ẩn nút bắt đầu
+        document.getElementById('examArea').classList.remove('hidden'); // Hiện bài thi
+        document.getElementById('studentName').disabled = true; // Khóa tên
+
+        // Bắt đầu đếm giờ
+        timerInterval = setInterval(() => {
+            secondsElapsed++;
+            const m = Math.floor(secondsElapsed / 60);
+            const s = secondsElapsed % 60;
+            document.getElementById('timerDisplay').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        }, 1000);
+    };
+
+    function stopTimer() { clearInterval(timerInterval); }
+
     async function submitQuiz() {
         if (isSubmitting) return;
         const name = document.getElementById('studentName').value;
@@ -195,11 +205,13 @@
         
         const btn = document.getElementById('submitBtn');
         const loader = document.getElementById('btnLoader');
+        const btnText = document.getElementById('btnText');
+        const dbStatus = document.getElementById('db-status');
         const finalTimeStr = document.getElementById('timerDisplay').innerText;
 
         btn.disabled = true;
         loader.style.display = 'inline-block';
-        document.getElementById('btnText').innerText = "ĐANG CHẤM...";
+        btnText.innerText = 'ĐANG CHẤM...';
 
         let score = 0;
         let detailResult = [];
@@ -250,21 +262,21 @@
                     ngay_nop: serverTimestamp(),
                     chi_tiet: detailResult
                 });
-                document.getElementById('db-status').innerHTML = "<span style='color:green; font-weight:bold'>✔ Đã lưu kết quả thành công!</span>";
-                document.getElementById('btnText').innerText = "ĐÃ NỘP XONG";
+                dbStatus.innerHTML = "<span style='color:green; font-weight:bold'>✔ Đã lưu kết quả thành công!</span>";
+                btnText.innerText = "ĐÃ NỘP XONG";
             } catch (error) {
                 console.error(error);
-                document.getElementById('db-status').innerHTML = "<span style='color:red'>Lỗi gửi bài.</span>";
+                dbStatus.innerHTML = "<span style='color:red'>Lỗi gửi bài.</span>";
                 isSubmitting = false;
                 btn.disabled = false;
-                document.getElementById('btnText').innerText = "THỬ NỘP LẠI";
+                btnText.innerText = "THỬ NỘP LẠI";
             }
         }
         loader.style.display = 'none';
     }
 
     window.submitQuiz = submitQuiz;
-    renderExercises();
+    renderQuiz(); // Chạy ngay khi tải trang
 </script>
 
 </body>
