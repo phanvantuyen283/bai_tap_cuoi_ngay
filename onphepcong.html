@@ -6,32 +6,45 @@
     <title>Luyện Tập Cộng Nhẩm - Lớp 4A</title>
     <link rel="icon" href="https://img.icons8.com/color/48/calculator.png">
     <style>
-        :root { --primary: #4f46e5; --secondary: #0ea5e9; --success: #22c55e; --error: #ef4444; --bg: #f8fafc; --timer-bg: #fff1f2; --timer-text: #be123c; }
+        :root { --primary: #4f46e5; --bg: #f8fafc; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #334155; padding-top: 80px; }
         .container { max-width: 900px; margin: 0 auto; }
         .sticky-header { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .app-title { font-weight: bold; font-size: 1.2rem; color: var(--primary); margin: 0; }
-        .timer-badge { background-color: var(--timer-bg); color: var(--timer-text); font-weight: bold; font-size: 1.2rem; padding: 8px 15px; border-radius: 20px; border: 2px solid #fda4af; display: flex; align-items: center; gap: 5px; }
-        .student-info-area { text-align: center; margin-bottom: 30px; }
-        .student-input { padding: 12px 25px; border-radius: 50px; border: 2px solid #cbd5e1; width: 70%; max-width: 300px; font-size: 1.1rem; text-align: center; outline: none; transition: all 0.3s; }
-        .student-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
-        .exercise-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 6px solid var(--secondary); }
+        
+        .student-select { 
+            padding: 12px 25px; border-radius: 50px; border: 2px solid #cbd5e1; 
+            width: 80%; max-width: 400px; font-size: 1.1rem; outline: none; 
+            background: white; cursor: pointer; color: #334155;
+        }
+        .student-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+
+        .exercise-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 6px solid #0ea5e9; }
         .exercise-title { font-weight: bold; font-size: 1.2rem; color: var(--primary); margin-bottom: 15px; }
         .sequence-container { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-        .num-box { width: 45px; height: 45px; border: 2px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; background-color: #f1f5f9; color: #64748b; }
+        .num-box { width: 45px; height: 45px; border: 2px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; background-color: #f1f5f9; }
         input.num-input { width: 45px; height: 45px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; font-size: 1rem; font-weight: bold; }
-        input.num-input:focus { border-color: var(--primary); outline: none; }
-        .correct { background-color: #dcfce7 !important; border-color: var(--success) !important; color: #15803d !important; }
-        .incorrect { background-color: #fee2e2 !important; border-color: var(--error) !important; color: #b91c1c !important; }
-        .btn-submit { background-color: var(--primary); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; width: 100%; max-width: 300px; }
+        
+        /* Trạng thái */
+        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; }
+        .hidden { display: none !important; } /* Class ẩn hiện */
+
+        /* Nút bấm */
+        .btn-action { background-color: var(--primary); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; width: 100%; max-width: 300px; transition: 0.3s; }
+        .btn-start { background-color: #22c55e; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); animation: pulse 2s infinite; }
         .btn-submit:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* Popup */
         #result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .result-modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; animation: popIn 0.3s ease-out; }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .result-modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
         .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #f0f9ff; border: 5px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin: 0 auto 20px auto; }
         .grade-badge { display: inline-block; padding: 5px 15px; border-radius: 15px; font-weight: bold; color: white; margin-bottom: 20px; }
         .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #fff; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         @media (max-width: 600px) { .num-box, input.num-input { width: 35px; height: 35px; font-size: 0.9rem; } .container { padding-bottom: 100px; } }
     </style>
 </head>
@@ -39,22 +52,28 @@
 
 <div class="sticky-header">
     <h3 class="app-title">Lớp 4A - Thầy Tuyến</h3>
-    <div class="timer-badge"><span>⏱</span> <span id="timerDisplay">00:00</span></div>
+    <div style="background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af;">⏱ <span id="timerDisplay">00:00</span></div>
 </div>
 
 <div class="container">
-    <div class="student-info-area">
-        <h1 style="color: var(--primary);">LUYỆN CỘNG NHẨM</h1>
-        <p style="color: #64748b;">Điền số thích hợp vào chỗ trống</p>
-        <input type="text" id="studentName" class="student-input" placeholder="Nhập họ và tên của em..." required>
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: var(--primary); margin-bottom: 5px;">LUYỆN CỘNG NHẨM</h1>
+        <p style="color: #64748b; margin-top:0; margin-bottom: 20px;">Điền số thích hợp vào chỗ trống</p>
+        
+        <select id="studentName" class="student-select">
+            <option value="">-- Chọn tên của em --</option>
+        </select>
     </div>
 
-    <div id="exercises-container"></div>
+    <button id="startBtn" class="btn-action btn-start" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
 
-    <button type="button" class="btn-submit" id="submitBtn" onclick="submitQuiz()">
-        <div class="loader" id="btnLoader"></div>
-        <span id="btnText">NỘP BÀI</span>
-    </button>
+    <div id="examArea" class="hidden">
+        <div id="exercises-container"></div>
+        <button type="button" class="btn-action btn-submit" id="submitBtn" onclick="submitQuiz()">
+            <div class="loader" id="btnLoader"></div>
+            <span id="btnText">NỘP BÀI</span>
+        </button>
+    </div>
 </div>
 
 <div id="result-overlay">
@@ -85,9 +104,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // =========================================================================
-    [span_0](start_span)// DANH SÁCH LỚP 4A[span_0](end_span)
-    // =========================================================================
+    // DANH SÁCH LỚP 4A
     const DANH_SACH_LOP = [
         "Vũ Việt Anh", "Vũ Gia Bảo", "Lê Thị Liên Chi", "Bùi Anh Dũng", "Vũ Quốc Duy",
         "Nguyễn Đăng Dương", "Nguyễn Trí Đại", "Lê Bá Đạt", "Nguyễn Văn Đạt", "Lê Minh Hạnh",
@@ -98,12 +115,13 @@
         "Lê Vũ Chí Thành", "Lê Anh Thơ", "Vũ Song Vũ"
     ];
 
-    function kiemTraTenTrongDanhSach(tenHocSinh) {
-        const tenChuanHoa = tenHocSinh.trim().toLowerCase();
-        const danhSachChuanHoa = DANH_SACH_LOP.map(ten => ten.trim().toLowerCase());
-        return danhSachChuanHoa.includes(tenChuanHoa);
-    }
-    // =========================================================================
+    const selectBox = document.getElementById('studentName');
+    DANH_SACH_LOP.forEach(ten => {
+        const option = document.createElement('option');
+        option.value = ten;
+        option.text = ten;
+        selectBox.appendChild(option);
+    });
 
     const exercisesData = [
         { id: 1, step: 2, start: [21, 23], title: "Bài 1: Cộng thêm 2" },
@@ -122,14 +140,30 @@
     let secondsElapsed = 0;
     let isSubmitting = false;
 
-    function startTimer() {
+    // HÀM BẮT ĐẦU LÀM BÀI
+    window.startExam = function() {
+        const name = document.getElementById('studentName').value;
+        if (!name) {
+            alert("Vui lòng chọn tên của em trước khi bắt đầu!");
+            return;
+        }
+
+        // Ẩn nút bắt đầu, Hiện bài thi
+        document.getElementById('startBtn').classList.add('hidden');
+        document.getElementById('examArea').classList.remove('hidden');
+        
+        // Khóa chọn tên
+        document.getElementById('studentName').disabled = true;
+
+        // Bắt đầu đếm giờ
         timerInterval = setInterval(() => {
             secondsElapsed++;
             const m = Math.floor(secondsElapsed / 60);
             const s = secondsElapsed % 60;
             document.getElementById('timerDisplay').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
         }, 1000);
-    }
+    };
+
     function stopTimer() { clearInterval(timerInterval); }
 
     function renderExercises() {
@@ -138,7 +172,6 @@
         exercisesData.forEach((ex) => {
             let inputs = '';
             for(let i=0; i<TOTAL_BLANKS_PER_EXERCISE; i++) inputs += `<input type="number" class="num-input" id="ex-${ex.id}-in-${i}" placeholder="?">`;
-            
             html += `
                 <div class="exercise-card">
                     <div class="exercise-title"><span>${ex.title}</span></div>
@@ -150,28 +183,11 @@
                 </div>`;
         });
         container.innerHTML = html;
-        startTimer();
     }
 
     async function submitQuiz() {
         if (isSubmitting) return; 
-
-        const nameInput = document.getElementById('studentName');
-        const name = nameInput.value.trim();
-
-        if (!name) {
-            alert("Em hãy nhập tên trước khi nộp bài nhé!");
-            nameInput.focus();
-            return;
-        }
-
-        // --- KIỂM TRA TÊN TRONG DANH SÁCH ---
-        if (!kiemTraTenTrongDanhSach(name)) {
-            alert(`⚠️ Tên "${name}" không có trong danh sách lớp 4A!\n\nEm hãy nhập đúng tên của mình nhé.`);
-            nameInput.focus();
-            return; 
-        }
-        // ------------------------------------
+        const name = document.getElementById('studentName').value;
 
         isSubmitting = true;
         stopTimer();
@@ -196,9 +212,7 @@
                 currentVal = currentVal + ex.step;
                 const inputEl = document.getElementById(`ex-${ex.id}-in-${i}`);
                 const studentVal = parseInt(inputEl.value);
-                
                 inputEl.disabled = true;
-
                 if (studentVal === currentVal) {
                     totalCorrect++;
                     exerciseCorrectCount++;
@@ -211,8 +225,7 @@
         });
 
         const percentage = (totalCorrect / totalQuestions) * 100;
-        let gradeText = "";
-        let gradeColor = "";
+        let gradeText = "", gradeColor = "";
         if (percentage >= 90) { gradeText = "Xuất Sắc!"; gradeColor = "#22c55e"; }
         else if (percentage >= 75) { gradeText = "Giỏi Quá!"; gradeColor = "#3b82f6"; }
         else if (percentage >= 50) { gradeText = "Khá Tốt!"; gradeColor = "#eab308"; }
@@ -242,7 +255,7 @@
                 btnText.innerText = "ĐÃ NỘP XONG";
             } catch (error) {
                 console.error(error);
-                statusDiv.innerHTML = "<span style='color:red'>Lỗi gửi bài. Em hãy chụp màn hình gửi thầy nhé.</span>";
+                statusDiv.innerHTML = "<span style='color:red'>Lỗi gửi bài.</span>";
                 isSubmitting = false;
                 btn.disabled = false;
                 btnText.innerText = "THỬ NỘP LẠI";
