@@ -22,188 +22,100 @@
             margin: 0;
             padding: 20px;
             color: #334155;
-            padding-top: 80px; /* Để chừa chỗ cho thanh header dính */
+            padding-top: 80px; 
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; }
 
-        /* HEADER DÍNH (Sticky Header) để luôn nhìn thấy đồng hồ */
         .sticky-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 10px 20px;
+            position: fixed; top: 0; left: 0; right: 0;
+            background: white; padding: 10px 20px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            z-index: 100; display: flex;
+            justify-content: space-between; align-items: center;
         }
 
-        .app-title {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin: 0;
-        }
+        .app-title { font-weight: bold; font-size: 1.2rem; color: var(--primary); margin: 0; }
 
-        /* ĐỒNG HỒ ĐẾM GIỜ */
         .timer-badge {
-            background-color: var(--timer-bg);
-            color: var(--timer-text);
-            font-weight: bold;
-            font-size: 1.2rem;
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 2px solid #fda4af;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            background-color: var(--timer-bg); color: var(--timer-text);
+            font-weight: bold; font-size: 1.2rem; padding: 8px 15px;
+            border-radius: 20px; border: 2px solid #fda4af;
+            display: flex; align-items: center; gap: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .student-info-area {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .student-info-area { text-align: center; margin-bottom: 30px; }
 
         .student-input {
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: 2px solid #cbd5e1;
-            width: 70%;
-            max-width: 300px;
-            font-size: 1.1rem;
-            text-align: center;
-            outline: none;
+            padding: 12px 25px; border-radius: 50px;
+            border: 2px solid #cbd5e1; width: 70%; max-width: 300px;
+            font-size: 1.1rem; text-align: center; outline: none;
             transition: all 0.3s;
         }
         
-        .student-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-        }
+        .student-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
 
         .exercise-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background: white; border-radius: 12px; padding: 20px;
+            margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             border-left: 6px solid var(--secondary);
         }
 
         .exercise-title {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-weight: bold; font-size: 1.2rem; color: var(--primary);
+            margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;
         }
 
-        .sequence-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
+        .sequence-container { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 
         .num-box {
-            width: 45px;
-            height: 45px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1rem;
-            background-color: #f1f5f9;
-            color: #64748b;
+            width: 45px; height: 45px; border: 2px solid #e2e8f0;
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; font-weight: bold; font-size: 1rem;
+            background-color: #f1f5f9; color: #64748b;
         }
 
         input.num-input {
-            width: 45px;
-            height: 45px;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #334155;
-            transition: all 0.2s;
-            background: white;
-            -moz-appearance: textfield;
+            width: 45px; height: 45px; border: 2px solid #cbd5e1;
+            border-radius: 8px; text-align: center; font-size: 1rem;
+            font-weight: bold; color: #334155; transition: all 0.2s;
+            background: white; -moz-appearance: textfield;
         }
 
-        input.num-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-            outline: none;
-        }
+        input.num-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); outline: none; }
+        input.num-input::-webkit-outer-spin-button, input.num-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-        input.num-input::-webkit-outer-spin-button,
-        input.num-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .correct {
-            background-color: #dcfce7 !important;
-            border-color: var(--success) !important;
-            color: #15803d !important;
-        }
-
-        .incorrect {
-            background-color: #fee2e2 !important;
-            border-color: var(--error) !important;
-            color: #b91c1c !important;
-        }
+        .correct { background-color: #dcfce7 !important; border-color: var(--success) !important; color: #15803d !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: var(--error) !important; color: #b91c1c !important; }
 
         .btn-submit {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 15px 50px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            display: block;
-            margin: 40px auto;
+            background-color: var(--primary); color: white; border: none;
+            padding: 15px 50px; font-size: 1.2rem; border-radius: 50px;
+            cursor: pointer; display: block; margin: 40px auto;
             box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
             transition: transform 0.2s;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            background-color: #4338ca;
+        .btn-submit:hover { transform: translateY(-2px); background-color: #4338ca; }
+        
+        /* Style cho nút khi bị khóa (disabled) */
+        .btn-submit:disabled {
+            background-color: #94a3b8; /* Màu xám */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
-        /* POPUP KẾT QUẢ */
         #result-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: none;
+            justify-content: center; align-items: center; z-index: 1000;
         }
 
         .result-modal {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
+            background: white; padding: 30px; border-radius: 20px;
+            text-align: center; max-width: 400px; width: 90%;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             animation: popIn 0.3s ease-out;
         }
@@ -211,45 +123,20 @@
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .score-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #f0f9ff;
-            border: 5px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary);
+            width: 120px; height: 120px; border-radius: 50%;
+            background: #f0f9ff; border: 5px solid var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: bold; color: var(--primary);
             margin: 0 auto 20px auto;
         }
 
-        .result-detail {
-            margin: 10px 0;
-            font-size: 1.1rem;
-        }
-
-        .grade-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 20px;
-        }
+        .result-detail { margin: 10px 0; font-size: 1.1rem; }
+        .grade-badge { display: inline-block; padding: 5px 15px; border-radius: 15px; font-weight: bold; color: white; margin-bottom: 20px; }
 
         .loader {
-            border: 3px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 3px solid #fff;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 10px;
-            display: none;
+            border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #fff;
+            width: 20px; height: 20px; animation: spin 1s linear infinite;
+            display: inline-block; vertical-align: middle; margin-right: 10px; display: none;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -264,9 +151,7 @@
 
 <div class="sticky-header">
     <h3 class="app-title">Lớp 4A - Thầy Tuyến</h3>
-    <div class="timer-badge">
-        <span>⏱</span> <span id="timerDisplay">00:00</span>
-    </div>
+    <div class="timer-badge"><span>⏱</span> <span id="timerDisplay">00:00</span></div>
 </div>
 
 <div class="container">
@@ -287,18 +172,15 @@
 <div id="result-overlay">
     <div class="result-modal">
         <div class="score-circle" id="finalScore">0/0</div>
-        
         <h2 id="finalGrade" style="margin: 5px 0;"></h2>
         <div id="finalGradeBadge" class="grade-badge"></div>
-
         <div class="result-detail">
             <span style="color:#64748b;">Thời gian làm bài:</span><br>
             <strong id="finalTime" style="font-size: 1.3rem; color: #be123c;">00:00</strong>
         </div>
-
         <div id="db-status" style="margin-top:10px; font-size: 0.9rem;"></div>
-        
         <button onclick="closeResult()" style="margin-top:20px; padding:10px 30px; border-radius:25px; border:none; background:#cbd5e1; cursor:pointer; font-weight:bold; color:#334155;">Xem lại bài làm</button>
+        <button onclick="location.reload()" style="margin-top:10px; padding:10px 30px; border-radius:25px; border:none; background:#22c55e; color:white; cursor:pointer; font-weight:bold; display:block; margin: 10px auto;">Làm bài mới</button>
     </div>
 </div>
 
@@ -306,7 +188,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-    // 1. CẤU HÌNH FIREBASE (Dự án baikiemtracuoiki)
     const firebaseConfig = {
         apiKey: "AIzaSyA77lLi_JCLIdR535KEfg3S0_Ge2EorPMo",
         authDomain: "baikiemtracuoiki.firebaseapp.com",
@@ -321,12 +202,10 @@
     try {
         const app = initializeApp(firebaseConfig);
         db = getFirestore(app);
-        console.log("Firebase connected!");
     } catch (e) {
         console.error("Firebase error:", e);
     }
 
-    // 2. DỮ LIỆU ĐỀ BÀI
     const exercisesData = [
         { id: 1, step: 2, start: [21, 23], title: "Bài 1: Cộng thêm 2" },
         { id: 2, step: 3, start: [12, 15], title: "Bài 2: Cộng thêm 3" },
@@ -341,9 +220,10 @@
 
     const TOTAL_BLANKS_PER_EXERCISE = 18;
 
-    // 3. XỬ LÝ ĐỒNG HỒ ĐẾM GIỜ
     let timerInterval;
     let secondsElapsed = 0;
+    // BIẾN CỜ HIỆU ĐỂ CHẶN CLICK LIÊN TỤC
+    let isSubmitting = false;
 
     function startTimer() {
         timerInterval = setInterval(() => {
@@ -352,9 +232,7 @@
         }, 1000);
     }
 
-    function stopTimer() {
-        clearInterval(timerInterval);
-    }
+    function stopTimer() { clearInterval(timerInterval); }
 
     function formatTime(totalSeconds) {
         const m = Math.floor(totalSeconds / 60);
@@ -362,17 +240,13 @@
         return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
-    // 4. TẠO GIAO DIỆN
     function renderExercises() {
         const container = document.getElementById('exercises-container');
         let html = '';
-
         exercisesData.forEach((ex, index) => {
             html += `
                 <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span>${ex.title}</span>
-                    </div>
+                    <div class="exercise-title"><span>${ex.title}</span></div>
                     <div class="sequence-container">
                         <div class="num-box">${ex.start[0]}</div>
                         <div class="num-box">${ex.start[1]}</div>
@@ -382,8 +256,6 @@
             `;
         });
         container.innerHTML = html;
-        
-        // Bắt đầu đếm giờ ngay khi tải xong
         startTimer();
     }
 
@@ -395,8 +267,10 @@
         return inputs;
     }
 
-    // 5. CHẤM ĐIỂM
     async function submitQuiz() {
+        // 1. KIỂM TRA XEM CÓ ĐANG GỬI KHÔNG
+        if (isSubmitting) return; 
+
         const name = document.getElementById('studentName').value.trim();
         if (!name) {
             alert("Em hãy nhập tên trước khi nộp bài nhé!");
@@ -404,14 +278,18 @@
             return;
         }
 
-        // Dừng đồng hồ
-        stopTimer();
-        const finalTimeString = formatTime(secondsElapsed);
-
+        // 2. KHÓA NÚT NGAY LẬP TỨC
+        isSubmitting = true; // Bật cờ "đang gửi"
         const btn = document.getElementById('submitBtn');
         const loader = document.getElementById('btnLoader');
-        btn.disabled = true;
+        const btnText = document.getElementById('btnText');
+        
+        btn.disabled = true; // Vô hiệu hóa nút
         loader.style.display = 'inline-block';
+        btnText.innerText = 'ĐANG CHẤM...';
+
+        stopTimer();
+        const finalTimeString = formatTime(secondsElapsed);
 
         let totalCorrect = 0;
         let totalQuestions = exercisesData.length * TOTAL_BLANKS_PER_EXERCISE;
@@ -420,36 +298,33 @@
         exercisesData.forEach(ex => {
             let currentVal = ex.start[1];
             let exerciseCorrectCount = 0;
-
             for (let i = 0; i < TOTAL_BLANKS_PER_EXERCISE; i++) {
                 currentVal = currentVal + ex.step;
                 const inputEl = document.getElementById(`ex-${ex.id}-in-${i}`);
                 const studentVal = parseInt(inputEl.value);
+                
+                // Khóa luôn các ô nhập liệu để không sửa được nữa
+                inputEl.disabled = true;
 
                 if (studentVal === currentVal) {
                     totalCorrect++;
                     exerciseCorrectCount++;
                     inputEl.classList.add('correct');
-                    inputEl.classList.remove('incorrect');
                 } else {
                     inputEl.classList.add('incorrect');
-                    inputEl.classList.remove('correct');
                 }
             }
             details.push({ bai: ex.id, dung: exerciseCorrectCount });
         });
 
-        // XẾP LOẠI
         const percentage = (totalCorrect / totalQuestions) * 100;
         let gradeText = "";
         let gradeColor = "";
-        
         if (percentage >= 90) { gradeText = "Xuất Sắc!"; gradeColor = "#22c55e"; }
         else if (percentage >= 75) { gradeText = "Giỏi Quá!"; gradeColor = "#3b82f6"; }
         else if (percentage >= 50) { gradeText = "Khá Tốt!"; gradeColor = "#eab308"; }
         else { gradeText = "Cần Cố Gắng!"; gradeColor = "#ef4444"; }
 
-        // HIỂN THỊ KẾT QUẢ
         document.getElementById('finalScore').innerText = `${totalCorrect}/${totalQuestions}`;
         document.getElementById('finalTime').innerText = finalTimeString;
         document.getElementById('finalGrade').innerText = gradeText;
@@ -458,7 +333,6 @@
 
         document.getElementById('result-overlay').style.display = 'flex';
 
-        // GỬI FIREBASE
         const statusDiv = document.getElementById('db-status');
         if (db) {
             try {
@@ -466,35 +340,42 @@
                     ten_hoc_sinh: name,
                     diem_so: totalCorrect,
                     tong_so_o: totalQuestions,
-                    thoi_gian_lam_bai: finalTimeString, // Lưu chuỗi "05:30"
-                    thoi_gian_giay: secondsElapsed,     // Lưu số giây (để sắp xếp nếu cần)
+                    thoi_gian_lam_bai: finalTimeString,
+                    thoi_gian_giay: secondsElapsed,
                     xep_loai: gradeText,
                     ngay_nop: serverTimestamp(),
                     chi_tiet: details
                 });
                 statusDiv.innerHTML = "<span style='color:green; font-weight:bold'>✔ Đã lưu kết quả thành công!</span>";
+                
+                // 3. THÀNH CÔNG -> GIỮ NGUYÊN KHÓA NÚT
+                btnText.innerText = "ĐÃ NỘP XONG";
+                // Lưu ý: Không set isSubmitting = false ở đây, để nút bị khóa vĩnh viễn
+                
             } catch (error) {
                 console.error(error);
-                statusDiv.innerHTML = "<span style='color:red'>Lỗi gửi bài (Kiểm tra Rules).</span>";
+                statusDiv.innerHTML = "<span style='color:red'>Lỗi gửi bài. Em hãy chụp màn hình gửi thầy nhé.</span>";
+                
+                // 4. NẾU LỖI -> MỞ KHÓA ĐỂ NỘP LẠI
+                isSubmitting = false;
+                btn.disabled = false;
+                btnText.innerText = "THỬ NỘP LẠI";
             }
         } else {
-            statusDiv.innerHTML = "Chưa kết nối CSDL.";
+            statusDiv.innerHTML = "Chưa kết nối mạng.";
+            isSubmitting = false;
+            btn.disabled = false;
         }
 
-        btn.disabled = false;
         loader.style.display = 'none';
-        document.getElementById('btnText').innerText = "ĐÃ NỘP BÀI";
     }
 
-    // Đưa hàm ra ngoài global
     window.submitQuiz = submitQuiz;
     window.closeResult = function() {
         document.getElementById('result-overlay').style.display = 'none';
     }
 
-    // Chạy app
     renderExercises();
-
 </script>
 
 </body>
