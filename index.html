@@ -6,52 +6,59 @@
     <title>Ôn Tập Câu 4 Thành Phần - Lớp 4A</title>
     <link rel="icon" href="https://img.icons8.com/color/48/book.png">
     <style>
-        :root { --primary: #ea580c; --secondary: #fb923c; --success: #22c55e; --error: #ef4444; --bg: #fff7ed; --timer-bg: #fff1f2; --timer-text: #be123c; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #431407; padding-top: 80px; }
+        :root { --primary: #ea580c; --secondary: #fb923c; --success: #22c55e; --error: #ef4444; --bg: #fff7ed; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #431407; padding-top: 80px; }
         .container { max-width: 800px; margin: 0 auto; }
-        .sticky-header { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .sticky-header { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .app-title { font-weight: bold; font-size: 1.1rem; color: var(--primary); margin: 0; text-transform: uppercase; }
-        .timer-badge { background: var(--timer-bg); color: var(--timer-text); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 1px solid #fda4af; display: flex; align-items: center; gap: 5px; }
+        
+        /* Dropdown chọn tên */
+        .student-select { 
+            padding: 12px 25px; border-radius: 50px; border: 2px solid #fdba74; 
+            width: 80%; max-width: 400px; font-size: 1.1rem; outline: none; 
+            background: white; cursor: pointer; color: #ea580c; font-weight: 600; appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ea580c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat; background-position: right 15px center; background-size: 20px;
+        }
+        .student-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); }
+
         .student-info { margin-bottom: 20px; text-align: center; }
-        .student-input { padding: 12px 25px; border: 2px solid #fdba74; border-radius: 50px; width: 70%; max-width: 300px; text-align: center; font-size: 1.1rem; outline: none; transition: 0.3s; color: #ea580c; font-weight: 600; }
-        .student-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); }
-        .question-card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border-left: 5px solid var(--primary); }
+        .question-card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
         .question-number { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.9rem; text-transform: uppercase; }
         .question-text { font-size: 1.15rem; margin-bottom: 20px; font-weight: 600; }
         .options { display: flex; flex-direction: column; gap: 12px; }
         .option-label { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #fed7aa; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 500; }
         .option-label:hover { background-color: #fff7ed; border-color: var(--primary); }
         input[type="radio"] { margin-right: 15px; width: 18px; height: 18px; accent-color: var(--primary); }
-        .option-label.correct { background-color: #dcfce7 !important; border-color: var(--success) !important; color: #14532d !important; }
-        .option-label.incorrect { background-color: #fee2e2 !important; border-color: var(--error) !important; color: #7f1d1d !important; }
+        .option-label.correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #14532d !important; }
+        .option-label.incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #7f1d1d !important; }
         .explanation { margin-top: 20px; padding: 15px; background-color: #eff6ff; border-radius: 8px; display: none; font-size: 0.95rem; color: #1e40af; }
-        .btn-submit { background: linear-gradient(135deg, #ea580c, #c2410c); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3); width: 100%; max-width: 300px; transition: transform 0.2s; }
-        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-submit { background: linear-gradient(135deg, #ea580c, #c2410c); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; width: 100%; max-width: 300px; }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
         #result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .result-modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; animation: popIn 0.3s ease-out; }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .result-modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
         .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #fff7ed; border: 5px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin: 0 auto 20px auto; }
         .grade-badge { display: inline-block; padding: 5px 15px; border-radius: 15px; font-weight: bold; color: white; margin-bottom: 20px; }
         .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #fff; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @media (max-width: 600px) { body { padding: 10px; padding-top: 70px; } .question-text { font-size: 1rem; } }
+        @media (max-width: 600px) { .question-text { font-size: 1rem; } body { padding-top: 70px; } }
     </style>
 </head>
 <body>
 
 <div class="sticky-header">
     <h3 class="app-title">Lớp 4A - Thầy Tuyến</h3>
-    <div class="timer-badge">⏱ <span id="timerDisplay">00:00</span></div>
+    <div style="background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af;">⏱ <span id="timerDisplay">00:00</span></div>
 </div>
 
 <div class="container">
     <div style="text-align: center; margin-bottom: 30px;">
         <h1 style="color: var(--primary); margin-bottom: 5px;">ÔN TẬP TIẾNG VIỆT</h1>
-        <p style="color: #9a3412; margin-top: 0;">Câu 4 thành phần: Thời gian - Địa điểm - Chủ ngữ - Hoạt động</p>
-    </div>
-    
-    <div class="student-info">
-        <input type="text" id="studentName" class="student-input" placeholder="Nhập họ và tên của em..." required autocomplete="off">
+        <p style="color: #9a3412; margin-top: 0; margin-bottom: 20px;">Câu 4 thành phần: Thời gian - Địa điểm - Chủ ngữ - Hoạt động</p>
+        
+        <select id="studentName" class="student-select">
+            <option value="">-- Chọn tên của em --</option>
+        </select>
     </div>
 
     <form id="quizForm">
@@ -71,7 +78,7 @@
         <div style="font-size: 1.1rem; margin-bottom: 10px;">Thời gian: <strong id="timeResult" style="color:#b91c1c"></strong></div>
         <div style="margin-top:10px; font-size: 0.9rem;" id="db-status"></div>
         <div style="margin-top:20px;">
-            <button onclick="document.getElementById('result-overlay').style.display='none'" style="padding: 10px 30px; border-radius: 20px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; font-weight: bold; color: #444;">Xem lại bài làm</button>
+            <button onclick="document.getElementById('result-overlay').style.display='none'" style="padding: 10px 30px; border-radius: 20px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; font-weight: bold; color: #444;">Xem lại bài</button>
             <button onclick="location.reload()" style="padding: 10px 30px; border-radius: 20px; border: none; background: #22c55e; color: white; cursor: pointer; font-weight: bold; margin-left: 10px;">Làm bài mới</button>
         </div>
     </div>
@@ -93,9 +100,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // =========================================================================
-    [span_1](start_span)// DANH SÁCH LỚP 4A[span_1](end_span)
-    // =========================================================================
+    // DANH SÁCH LỚP 4A CHUẨN XÁC
     const DANH_SACH_LOP = [
         "Vũ Việt Anh", "Vũ Gia Bảo", "Lê Thị Liên Chi", "Bùi Anh Dũng", "Vũ Quốc Duy",
         "Nguyễn Đăng Dương", "Nguyễn Trí Đại", "Lê Bá Đạt", "Nguyễn Văn Đạt", "Lê Minh Hạnh",
@@ -106,13 +111,16 @@
         "Lê Vũ Chí Thành", "Lê Anh Thơ", "Vũ Song Vũ"
     ];
 
-    function kiemTraTenTrongDanhSach(tenHocSinh) {
-        const tenChuanHoa = tenHocSinh.trim().toLowerCase();
-        const danhSachChuanHoa = DANH_SACH_LOP.map(ten => ten.trim().toLowerCase());
-        return danhSachChuanHoa.includes(tenChuanHoa);
-    }
-    // =========================================================================
+    // Nạp danh sách vào Select Box
+    const selectBox = document.getElementById('studentName');
+    DANH_SACH_LOP.forEach(ten => {
+        const option = document.createElement('option');
+        option.value = ten;
+        option.text = ten;
+        selectBox.appendChild(option);
+    });
 
+    // DỮ LIỆU CÂU HỎI
     const questions = [
         { id: 1, text: "Câu nào dưới đây tuân thủ đúng cấu trúc: Thời gian + Địa điểm + Chủ ngữ + Hoạt động?", options: ["Sáng nay, mẹ em đi chợ tại siêu thị.", "Ở sân trường, sáng thứ hai, chúng em chào cờ.", "Sáng thứ hai, ở sân trường, chúng em chào cờ.", "Chúng em chào cờ sáng thứ hai ở sân trường."], correct: 2, explain: "Đáp án đúng là C: Sáng thứ hai (TG) + ở sân trường (ĐĐ) + chúng em (CN) + chào cờ (HĐ)." },
         { id: 2, text: "Trong các câu sau, câu nào viết đúng theo công thức đã học?", options: ["Hôm qua, trên cành cây, chú chim hót líu lo.", "Chú chim hót líu lo trên cành cây hôm qua.", "Trên cành cây, hôm qua, chú chim hót líu lo.", "Hôm qua, chú chim hót líu lo trên cành cây."], correct: 0, explain: "Đáp án đúng là A." },
@@ -171,34 +179,27 @@
     async function submitQuiz() {
         if (isSubmitting) return;
 
-        const nameInput = document.getElementById('studentName');
-        const name = nameInput.value.trim();
+        const nameSelect = document.getElementById('studentName');
+        const name = nameSelect.value;
 
         if (!name) {
-            alert("Em hãy nhập tên trước khi nộp bài nhé!");
-            nameInput.focus();
+            alert("Em chưa chọn tên! Hãy bấm vào ô 'Chọn tên của em' nhé.");
+            nameSelect.focus();
             return;
         }
-
-        // --- KIỂM TRA TÊN TRONG DANH SÁCH ---
-        if (!kiemTraTenTrongDanhSach(name)) {
-            alert(`⚠️ Tên "${name}" không có trong danh sách lớp 4A!\n\nEm hãy nhập đúng tên của mình nhé.`);
-            nameInput.focus();
-            return;
-        }
-        // ------------------------------------
 
         isSubmitting = true;
         stopTimer();
         
         const btn = document.getElementById('submitBtn');
         const loader = document.getElementById('btnLoader');
+        const btnText = document.getElementById('btnText');
         const dbStatus = document.getElementById('db-status');
         const finalTimeStr = document.getElementById('timerDisplay').innerText;
 
         btn.disabled = true;
         loader.style.display = 'inline-block';
-        document.getElementById('btnText').innerText = "ĐANG CHẤM...";
+        btnText.innerText = 'ĐANG CHẤM...';
 
         let score = 0;
         let detailResult = [];
@@ -232,13 +233,12 @@
         else if (percentage >= 50) { gradeText = "Khá Tốt!"; gradeColor = "#eab308"; }
         else { gradeText = "Cần Cố Gắng!"; gradeColor = "#ef4444"; }
 
-        const resultOverlay = document.getElementById('result-overlay');
-        resultOverlay.style.display = 'flex';
         document.getElementById('finalScore').innerText = `${score}/${questions.length}`;
         document.getElementById('finalGrade').innerText = gradeText;
         document.getElementById('finalGradeBadge').style.backgroundColor = gradeColor;
         document.getElementById('finalGradeBadge').innerText = `${Math.round(percentage)}%`;
         document.getElementById('timeResult').innerText = finalTimeStr;
+        document.getElementById('result-overlay').style.display = 'flex';
 
         if (db) {
             try {
@@ -252,13 +252,13 @@
                     chi_tiet: detailResult
                 });
                 dbStatus.innerHTML = "<span style='color:green; font-weight:bold'>✔ Đã lưu kết quả thành công!</span>";
-                document.getElementById('btnText').innerText = "ĐÃ NỘP XONG";
+                btnText.innerText = "ĐÃ NỘP XONG";
             } catch (error) {
                 console.error(error);
                 dbStatus.innerHTML = "<span style='color:red'>Lỗi gửi bài.</span>";
                 isSubmitting = false;
                 btn.disabled = false;
-                document.getElementById('btnText').innerText = "THỬ NỘP LẠI";
+                btnText.innerText = "THỬ NỘP LẠI";
             }
         }
         loader.style.display = 'none';
