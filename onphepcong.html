@@ -9,39 +9,43 @@
         :root { --primary: #4f46e5; --bg: #f8fafc; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #334155; padding-top: 80px; }
         .container { max-width: 900px; margin: 0 auto; }
+        
+        /* Header dính */
         .sticky-header { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .app-title { font-weight: bold; font-size: 1.2rem; color: var(--primary); margin: 0; }
+        .timer-badge { background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af; }
+
+        .student-info-area { text-align: center; margin-bottom: 30px; }
         
+        /* Select Box chọn tên */
         .student-select { 
             padding: 12px 25px; border-radius: 50px; border: 2px solid #cbd5e1; 
             width: 80%; max-width: 400px; font-size: 1.1rem; outline: none; 
-            background: white; cursor: pointer; color: #334155;
+            background: white; cursor: pointer; color: #334155; font-weight: 600;
         }
         .student-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
 
+        /* Khu vực bài làm */
+        .hidden { display: none !important; }
         .exercise-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 6px solid #0ea5e9; }
         .exercise-title { font-weight: bold; font-size: 1.2rem; color: var(--primary); margin-bottom: 15px; }
         .sequence-container { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
         .num-box { width: 45px; height: 45px; border: 2px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; background-color: #f1f5f9; }
         input.num-input { width: 45px; height: 45px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; font-size: 1rem; font-weight: bold; }
         
-        /* Trạng thái */
-        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; }
-        .incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; }
-        .hidden { display: none !important; } /* Class ẩn hiện */
-
-        /* Nút bấm */
         .btn-action { background-color: var(--primary); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; width: 100%; max-width: 300px; transition: 0.3s; }
         .btn-start { background-color: #22c55e; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); animation: pulse 2s infinite; }
         .btn-submit:disabled { background-color: #94a3b8; cursor: not-allowed; }
         
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* Popup */
+        
+        /* Popup kết quả */
         #result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .result-modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
         .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #f0f9ff; border: 5px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin: 0 auto 20px auto; }
         .grade-badge { display: inline-block; padding: 5px 15px; border-radius: 15px; font-weight: bold; color: white; margin-bottom: 20px; }
+        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; }
         .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #fff; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
@@ -52,11 +56,11 @@
 
 <div class="sticky-header">
     <h3 class="app-title">Lớp 4A - Thầy Tuyến</h3>
-    <div style="background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af;">⏱ <span id="timerDisplay">00:00</span></div>
+    <div class="timer-badge">⏱ <span id="timerDisplay">00:00</span></div>
 </div>
 
 <div class="container">
-    <div style="text-align: center; margin-bottom: 30px;">
+    <div class="student-info-area">
         <h1 style="color: var(--primary); margin-bottom: 5px;">LUYỆN CỘNG NHẨM</h1>
         <p style="color: #64748b; margin-top:0; margin-bottom: 20px;">Điền số thích hợp vào chỗ trống</p>
         
@@ -104,7 +108,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // DANH SÁCH LỚP 4A
     const DANH_SACH_LOP = [
         "Vũ Việt Anh", "Vũ Gia Bảo", "Lê Thị Liên Chi", "Bùi Anh Dũng", "Vũ Quốc Duy",
         "Nguyễn Đăng Dương", "Nguyễn Trí Đại", "Lê Bá Đạt", "Nguyễn Văn Đạt", "Lê Minh Hạnh",
@@ -115,13 +118,16 @@
         "Lê Vũ Chí Thành", "Lê Anh Thơ", "Vũ Song Vũ"
     ];
 
+    // Khởi tạo danh sách khi tải trang
     const selectBox = document.getElementById('studentName');
-    DANH_SACH_LOP.forEach(ten => {
-        const option = document.createElement('option');
-        option.value = ten;
-        option.text = ten;
-        selectBox.appendChild(option);
-    });
+    if(selectBox) {
+        DANH_SACH_LOP.forEach(ten => {
+            const option = document.createElement('option');
+            option.value = ten;
+            option.text = ten;
+            selectBox.appendChild(option);
+        });
+    }
 
     const exercisesData = [
         { id: 1, step: 2, start: [21, 23], title: "Bài 1: Cộng thêm 2" },
@@ -140,38 +146,16 @@
     let secondsElapsed = 0;
     let isSubmitting = false;
 
-    // HÀM BẮT ĐẦU LÀM BÀI
-    window.startExam = function() {
-        const name = document.getElementById('studentName').value;
-        if (!name) {
-            alert("Vui lòng chọn tên của em trước khi bắt đầu!");
-            return;
-        }
-
-        // Ẩn nút bắt đầu, Hiện bài thi
-        document.getElementById('startBtn').classList.add('hidden');
-        document.getElementById('examArea').classList.remove('hidden');
-        
-        // Khóa chọn tên
-        document.getElementById('studentName').disabled = true;
-
-        // Bắt đầu đếm giờ
-        timerInterval = setInterval(() => {
-            secondsElapsed++;
-            const m = Math.floor(secondsElapsed / 60);
-            const s = secondsElapsed % 60;
-            document.getElementById('timerDisplay').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-        }, 1000);
-    };
-
-    function stopTimer() { clearInterval(timerInterval); }
-
+    // Render bài tập ngay từ đầu nhưng để ẩn
     function renderExercises() {
         const container = document.getElementById('exercises-container');
+        if(!container) return;
+        
         let html = '';
         exercisesData.forEach((ex) => {
             let inputs = '';
             for(let i=0; i<TOTAL_BLANKS_PER_EXERCISE; i++) inputs += `<input type="number" class="num-input" id="ex-${ex.id}-in-${i}" placeholder="?">`;
+            
             html += `
                 <div class="exercise-card">
                     <div class="exercise-title"><span>${ex.title}</span></div>
@@ -185,8 +169,28 @@
         container.innerHTML = html;
     }
 
+    // Bắt đầu làm bài
+    window.startExam = function() {
+        const name = document.getElementById('studentName').value;
+        if (!name) { alert("Em chưa chọn tên! Hãy chọn tên trong danh sách nhé."); return; }
+
+        document.getElementById('startBtn').classList.add('hidden'); // Ẩn nút bắt đầu
+        document.getElementById('examArea').classList.remove('hidden'); // Hiện bài thi
+        document.getElementById('studentName').disabled = true; // Khóa tên
+
+        // Bắt đầu đếm giờ
+        timerInterval = setInterval(() => {
+            secondsElapsed++;
+            const m = Math.floor(secondsElapsed / 60);
+            const s = secondsElapsed % 60;
+            document.getElementById('timerDisplay').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        }, 1000);
+    };
+
+    function stopTimer() { clearInterval(timerInterval); }
+
     async function submitQuiz() {
-        if (isSubmitting) return; 
+        if (isSubmitting) return;
         const name = document.getElementById('studentName').value;
 
         isSubmitting = true;
@@ -211,14 +215,16 @@
             for (let i = 0; i < TOTAL_BLANKS_PER_EXERCISE; i++) {
                 currentVal = currentVal + ex.step;
                 const inputEl = document.getElementById(`ex-${ex.id}-in-${i}`);
-                const studentVal = parseInt(inputEl.value);
-                inputEl.disabled = true;
-                if (studentVal === currentVal) {
-                    totalCorrect++;
-                    exerciseCorrectCount++;
-                    inputEl.classList.add('correct');
-                } else {
-                    inputEl.classList.add('incorrect');
+                if(inputEl) {
+                    const studentVal = parseInt(inputEl.value);
+                    inputEl.disabled = true;
+                    if (studentVal === currentVal) {
+                        totalCorrect++;
+                        exerciseCorrectCount++;
+                        inputEl.classList.add('correct');
+                    } else {
+                        inputEl.classList.add('incorrect');
+                    }
                 }
             }
             details.push({ bai: ex.id, dung: exerciseCorrectCount });
@@ -265,7 +271,7 @@
     }
 
     window.submitQuiz = submitQuiz;
-    renderExercises();
+    renderExercises(); // Chạy tạo câu hỏi ngay khi tải trang
 </script>
 
 </body>
