@@ -1,283 +1,671 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn Tập Câu 4 Thành Phần - Lớp 4A</title>
-    <link rel="icon" href="https://img.icons8.com/color/48/book.png">
-    <style>
-        :root { --primary: #ea580c; --secondary: #fb923c; --success: #22c55e; --error: #ef4444; --bg: #fff7ed; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #431407; padding-top: 80px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .sticky-header { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .app-title { font-weight: bold; font-size: 1.1rem; color: var(--primary); margin: 0; text-transform: uppercase; }
-        .timer-badge { background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af; }
-
-        .student-info { margin-bottom: 20px; text-align: center; }
-        
-        /* Select Box */
-        .student-select { 
-            padding: 12px 25px; border-radius: 50px; border: 2px solid #fdba74; 
-            width: 80%; max-width: 400px; font-size: 1.1rem; outline: none; 
-            background: white; cursor: pointer; color: #ea580c; font-weight: 600;
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safe Food Presentation</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            nature: '#27AE60',
+            natureDark: '#1E8C4C',
+            natureLight: '#2ECC71',
+            safety: '#2980B9',
+            safetyDark: '#1F6B9E',
+            safetyLight: '#3498DB',
+          }
         }
-        .student-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
 
-        /* Câu hỏi */
-        .hidden { display: none !important; }
-        .question-card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
-        .question-number { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.9rem; text-transform: uppercase; }
-        .question-text { font-size: 1.15rem; margin-bottom: 20px; font-weight: 600; }
-        .options { display: flex; flex-direction: column; gap: 12px; }
-        .option-label { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #fed7aa; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 500; }
-        .option-label:hover { background-color: #fff7ed; border-color: var(--primary); }
-        input[type="radio"] { margin-right: 15px; width: 18px; height: 18px; accent-color: var(--primary); }
-        .option-label.correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #14532d !important; }
-        .option-label.incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #7f1d1d !important; }
-        .explanation { margin-top: 20px; padding: 15px; background-color: #eff6ff; border-radius: 8px; display: none; font-size: 0.95rem; color: #1e40af; }
-        
-        .btn-action { background: linear-gradient(135deg, #ea580c, #c2410c); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 40px auto; width: 100%; max-width: 300px; transition: 0.3s; }
-        .btn-start { background: #22c55e; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); animation: pulse 2s infinite; }
-        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    .slide-container {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .slide-container::-webkit-scrollbar { display: none; }
+    .slide {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
 
-        #result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .result-modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
-        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #fff7ed; border: 5px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin: 0 auto 20px auto; }
-        .grade-badge { display: inline-block; padding: 5px 15px; border-radius: 15px; font-weight: bold; color: white; margin-bottom: 20px; }
-        .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #fff; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; display: none; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @media (max-width: 600px) { body { padding: 10px; padding-top: 70px; } .question-text { font-size: 1rem; } }
-    </style>
-</head>
-<body>
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes floatDown {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(8px); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(39,174,96,0.3)); }
+      50% { filter: drop-shadow(0 0 20px rgba(39,174,96,0.6)); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .anim-float { animation: floatUp 3s ease-in-out infinite; }
+    .anim-float-delay { animation: floatDown 3.5s ease-in-out infinite; }
+    .anim-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+    .anim-slide-left { animation: slideInLeft 0.7s ease-out forwards; }
+    .anim-slide-right { animation: slideInRight 0.7s ease-out forwards; }
+    .anim-slide-up { animation: slideInUp 0.6s ease-out forwards; }
+    .anim-scale { animation: scaleIn 0.5s ease-out forwards; }
+    .anim-bounce { animation: bounceIn 0.8s ease-out forwards; }
 
-<div class="sticky-header">
-    <h3 class="app-title">Lớp 4A - Thầy Tuyến</h3>
-    <div style="background:#fff1f2; color:#be123c; padding:8px 15px; border-radius:20px; font-weight:bold; border:1px solid #fda4af;">⏱ <span id="timerDisplay">00:00</span></div>
-</div>
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
 
-<div class="container">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: var(--primary); margin-bottom: 5px;">ÔN TẬP TIẾNG VIỆT</h1>
-        <p style="color: #9a3412; margin-top: 0; margin-bottom: 20px;">Câu 4 thành phần: Thời gian - Địa điểm - Chủ ngữ - Hoạt động</p>
-        
-        <select id="studentName" class="student-select">
-            <option value="">-- Chọn tên của em --</option>
-        </select>
-    </div>
+    .nav-dot {
+      transition: all 0.3s ease;
+    }
+    .nav-dot.active {
+      width: 32px;
+      border-radius: 9999px;
+    }
 
-    <button id="startBtn" class="btn-action btn-start" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
+    .progress-bar {
+      transition: width 0.4s ease;
+    }
 
-    <div id="examArea" class="hidden">
-        <form id="quizForm">
-            <div id="questions-container"></div>
-            <button type="button" class="btn-action btn-submit" id="submitBtn" onclick="window.submitQuiz()">
-                <div class="loader" id="btnLoader"></div>
-                <span id="btnText">NỘP BÀI</span>
-            </button>
-        </form>
-    </div>
-</div>
-
-<div id="result-overlay">
-    <div class="result-modal">
-        <div class="score-circle" id="finalScore">0/0</div>
-        <h2 id="finalGrade" style="margin: 5px 0;"></h2>
-        <div id="finalGradeBadge" class="grade-badge"></div>
-        <div style="font-size: 1.1rem; margin-bottom: 10px;">Thời gian: <strong id="timeResult" style="color:#b91c1c"></strong></div>
-        <div style="margin-top:10px; font-size: 0.9rem;" id="db-status"></div>
-        <div style="margin-top:20px;">
-            <button onclick="document.getElementById('result-overlay').style.display='none'" style="padding: 10px 30px; border-radius: 20px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; font-weight: bold; color: #444;">Xem lại bài làm</button>
-            <button onclick="location.reload()" style="padding: 10px 30px; border-radius: 20px; border: none; background: #22c55e; color: white; cursor: pointer; font-weight: bold; margin-left: 10px;">Làm bài mới</button>
+    .btn-nav {
+      transition: all 0.25s ease;
+    }
+    .btn-nav:hover {
+      transform: scale(1.08);
+    }
+    .btn-nav:active {
+      transform: scale(0.95);
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="w-full h-full overflow-hidden relative" style="font-family: 'Nunito', sans-serif; background: #f0faf4;">
+   <!-- Progress Bar -->
+   <div class="absolute top-0 left-0 w-full z-30" style="height: 4px; background: rgba(39,174,96,0.15);">
+    <div id="progress-bar" class="progress-bar h-full rounded-r-full" style="width: 12.5%; background: linear-gradient(90deg, #27AE60, #2980B9);"></div>
+   </div><!-- Slide Container -->
+   <div id="slide-container" class="slide-container flex w-full h-full overflow-x-auto">
+    <!-- SLIDE 1: Title -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(135deg, #f0faf4 0%, #e8f8f0 40%, #e0f0f8 100%);">
+     <div class="absolute top-8 left-10 opacity-20">
+      <svg width="120" height="120" viewbox="0 0 120 120"><circle cx="60" cy="60" r="55" fill="none" stroke="#27AE60" stroke-width="3" stroke-dasharray="8 6" />
+      </svg>
+     </div>
+     <div class="absolute bottom-12 right-14 opacity-15">
+      <svg width="90" height="90" viewbox="0 0 90 90"><rect x="10" y="10" width="70" height="70" rx="15" fill="none" stroke="#2980B9" stroke-width="2.5" stroke-dasharray="6 5" />
+      </svg>
+     </div>
+     <div class="text-center px-8 max-w-4xl">
+      <!-- Shield Icon -->
+      <div class="anim-bounce mb-6 inline-block">
+       <div class="w-28 h-28 mx-auto rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #27AE60, #2ECC71); box-shadow: 0 8px 32px rgba(39,174,96,0.3);">
+        <svg width="56" height="56" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /> <path d="M9 12l2 2 4-4" />
+        </svg>
+       </div>
+      </div>
+      <h1 id="title-main" class="text-6xl font-black mb-4" style="color: #27AE60; letter-spacing: -1px; line-height: 1.1;">Safe Food</h1>
+      <p id="title-sub" class="text-2xl font-semibold mb-8" style="color: #2980B9; font-family: 'Quicksand', sans-serif;">Keeping Our Food Clean &amp; Healthy</p>
+      <div class="flex items-center justify-center gap-3 text-sm font-semibold" style="color: #666;">
+       <span class="px-4 py-1.5 rounded-full" style="background: rgba(39,174,96,0.1); color: #27AE60;">4th Grade</span> <span class="px-4 py-1.5 rounded-full" style="background: rgba(41,128,185,0.1); color: #2980B9;">Science</span>
+      </div><!-- Floating food emojis -->
+      <div class="absolute top-20 right-20 text-5xl anim-float opacity-70">
+       🥦
+      </div>
+      <div class="absolute bottom-24 left-16 text-4xl anim-float-delay opacity-70">
+       🍎
+      </div>
+      <div class="absolute top-32 left-28 text-3xl anim-float opacity-60">
+       🥕
+      </div>
+      <div class="absolute bottom-32 right-28 text-4xl anim-float-delay opacity-60">
+       🍊
+      </div>
+     </div>
+    </section><!-- SLIDE 2: What Is Food Safety? -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(160deg, #ffffff 0%, #f0faf4 100%);">
+     <div class="max-w-5xl w-full px-10">
+      <div class="flex items-center gap-4 mb-8">
+       <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #2980B9, #3498DB);">
+        <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+        </svg>
+       </div>
+       <h2 id="s2-title" class="text-4xl font-black" style="color: #1a1a2e;">What Is Food Safety?</h2>
+      </div>
+      <p class="text-xl mb-10 leading-relaxed" style="color: #555; font-family: 'Quicksand', sans-serif; max-width: 680px;">Food safety means making sure our food is <strong style="color: #27AE60;">clean</strong>, <strong style="color: #2980B9;">safe</strong>, and <strong style="color: #27AE60;">healthy</strong> to eat so we don't get sick!</p>
+      <div class="grid grid-cols-3 gap-6">
+       <div class="card-hover rounded-2xl p-6 text-center" style="background: white; box-shadow: 0 4px 20px rgba(39,174,96,0.08); border: 2px solid rgba(39,174,96,0.1);">
+        <div class="text-5xl mb-4">
+         🧼
         </div>
-    </div>
-</div>
+        <h3 class="font-bold text-lg mb-2" style="color: #1a1a2e;">Clean</h3>
+        <p class="text-sm" style="color: #777; font-family: 'Quicksand', sans-serif;">Wash food and hands before eating</p>
+       </div>
+       <div class="card-hover rounded-2xl p-6 text-center" style="background: white; box-shadow: 0 4px 20px rgba(41,128,185,0.08); border: 2px solid rgba(41,128,185,0.1);">
+        <div class="text-5xl mb-4">
+         🌡️
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color: #1a1a2e;">Cook</h3>
+        <p class="text-sm" style="color: #777; font-family: 'Quicksand', sans-serif;">Heat food to the right temperature</p>
+       </div>
+       <div class="card-hover rounded-2xl p-6 text-center" style="background: white; box-shadow: 0 4px 20px rgba(39,174,96,0.08); border: 2px solid rgba(39,174,96,0.1);">
+        <div class="text-5xl mb-4">
+         ❄️
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color: #1a1a2e;">Chill</h3>
+        <p class="text-sm" style="color: #777; font-family: 'Quicksand', sans-serif;">Keep cold food in the refrigerator</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- SLIDE 3: Wash Your Hands -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(160deg, #e8f8f0 0%, #ffffff 50%, #e0f0f8 100%);">
+     <div class="max-w-5xl w-full px-10">
+      <div class="flex items-center gap-4 mb-8">
+       <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #27AE60, #2ECC71);">
+        <span class="text-3xl">🫧</span>
+       </div>
+       <h2 id="s3-title" class="text-4xl font-black" style="color: #1a1a2e;">Wash Your Hands!</h2>
+      </div>
+      <div class="flex gap-8 items-start">
+       <div class="flex-1">
+        <p class="text-lg mb-8 leading-relaxed" style="color: #555; font-family: 'Quicksand', sans-serif;">The #1 rule of food safety! Always wash your hands with soap and warm water for <strong style="color: #2980B9;">20 seconds</strong>.</p>
+        <div class="space-y-4">
+         <div class="flex items-center gap-4 p-4 rounded-xl" style="background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white" style="background: #27AE60;">
+           1
+          </div><span class="font-semibold" style="color: #333;">Wet your hands with warm water</span>
+         </div>
+         <div class="flex items-center gap-4 p-4 rounded-xl" style="background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white" style="background: #2980B9;">
+           2
+          </div><span class="font-semibold" style="color: #333;">Add soap and scrub everywhere</span>
+         </div>
+         <div class="flex items-center gap-4 p-4 rounded-xl" style="background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white" style="background: #27AE60;">
+           3
+          </div><span class="font-semibold" style="color: #333;">Scrub for 20 seconds (sing "Happy Birthday" twice!)</span>
+         </div>
+         <div class="flex items-center gap-4 p-4 rounded-xl" style="background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white" style="background: #2980B9;">
+           4
+          </div><span class="font-semibold" style="color: #333;">Rinse and dry with a clean towel</span>
+         </div>
+        </div>
+       </div>
+       <div class="flex-shrink-0 w-56 h-56 rounded-3xl flex items-center justify-center anim-float" style="background: linear-gradient(135deg, #e8f8f0, #d4f0e0); border: 3px solid rgba(39,174,96,0.2);">
+        <span class="text-8xl">🧴</span>
+       </div>
+      </div>
+     </div>
+    </section><!-- SLIDE 4: Keep Food Fresh -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(160deg, #ffffff 0%, #e0f0f8 100%);">
+     <div class="max-w-5xl w-full px-10">
+      <div class="flex items-center gap-4 mb-8">
+       <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #2980B9, #3498DB);">
+        <span class="text-3xl">❄️</span>
+       </div>
+       <h2 id="s4-title" class="text-4xl font-black" style="color: #1a1a2e;">Keep Food Fresh</h2>
+      </div>
+      <div class="grid grid-cols-2 gap-6">
+       <div class="card-hover rounded-2xl p-7" style="background: white; box-shadow: 0 4px 20px rgba(41,128,185,0.08); border: 2px solid rgba(41,128,185,0.1);">
+        <div class="flex items-center gap-3 mb-4">
+         <span class="text-3xl">🧊</span>
+         <h3 class="font-bold text-xl" style="color: #2980B9;">Refrigerator Rules</h3>
+        </div>
+        <ul class="space-y-3" style="color: #555; font-family: 'Quicksand', sans-serif;">
+         <li class="flex items-start gap-2"><span style="color: #2980B9;">✦</span> Keep fridge below 40°F (4°C)</li>
+         <li class="flex items-start gap-2"><span style="color: #2980B9;">✦</span> Store raw meat on the bottom shelf</li>
+         <li class="flex items-start gap-2"><span style="color: #2980B9;">✦</span> Don't leave the door open too long</li>
+        </ul>
+       </div>
+       <div class="card-hover rounded-2xl p-7" style="background: white; box-shadow: 0 4px 20px rgba(39,174,96,0.08); border: 2px solid rgba(39,174,96,0.1);">
+        <div class="flex items-center gap-3 mb-4">
+         <span class="text-3xl">🍎</span>
+         <h3 class="font-bold text-xl" style="color: #27AE60;">Fruits &amp; Veggies</h3>
+        </div>
+        <ul class="space-y-3" style="color: #555; font-family: 'Quicksand', sans-serif;">
+         <li class="flex items-start gap-2"><span style="color: #27AE60;">✦</span> Wash before eating, not before storing</li>
+         <li class="flex items-start gap-2"><span style="color: #27AE60;">✦</span> Check for bruises or mold</li>
+         <li class="flex items-start gap-2"><span style="color: #27AE60;">✦</span> Store in separate containers</li>
+        </ul>
+       </div>
+       <div class="col-span-2 card-hover rounded-2xl p-5 flex items-center gap-6" style="background: linear-gradient(135deg, #f0faf4, #e8f4fc); border: 2px solid rgba(39,174,96,0.1);">
+        <div class="text-5xl anim-float-delay">
+         ⏰
+        </div>
+        <div>
+         <h3 class="font-bold text-lg mb-1" style="color: #1a1a2e;">The 2-Hour Rule</h3>
+         <p style="color: #555; font-family: 'Quicksand', sans-serif;">Don't leave food out at room temperature for more than 2 hours. Bacteria can grow fast!</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- SLIDE 5: Cook It Right -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(160deg, #e8f8f0 0%, #ffffff 100%);">
+     <div class="max-w-5xl w-full px-10">
+      <div class="flex items-center gap-4 mb-8">
+       <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #E74C3C, #FF6B6B);">
+        <span class="text-3xl">🔥</span>
+       </div>
+       <h2 id="s5-title" class="text-4xl font-black" style="color: #1a1a2e;">Cook It Right</h2>
+      </div>
+      <p class="text-lg mb-8" style="color: #555; font-family: 'Quicksand', sans-serif; max-width: 600px;">Cooking food at the right temperature kills harmful germs. Here's a quick guide:</p>
+      <div class="grid grid-cols-4 gap-5">
+       <div class="card-hover rounded-2xl p-5 text-center" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-4xl mb-3">
+         🐔
+        </div>
+        <h3 class="font-bold mb-1" style="color: #333;">Chicken</h3>
+        <div class="text-2xl font-black" style="color: #E74C3C;">
+         165°F
+        </div>
+        <p class="text-xs mt-1" style="color: #999;">74°C</p>
+       </div>
+       <div class="card-hover rounded-2xl p-5 text-center" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-4xl mb-3">
+         🥩
+        </div>
+        <h3 class="font-bold mb-1" style="color: #333;">Beef</h3>
+        <div class="text-2xl font-black" style="color: #E67E22;">
+         160°F
+        </div>
+        <p class="text-xs mt-1" style="color: #999;">71°C</p>
+       </div>
+       <div class="card-hover rounded-2xl p-5 text-center" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-4xl mb-3">
+         🐟
+        </div>
+        <h3 class="font-bold mb-1" style="color: #333;">Fish</h3>
+        <div class="text-2xl font-black" style="color: #2980B9;">
+         145°F
+        </div>
+        <p class="text-xs mt-1" style="color: #999;">63°C</p>
+       </div>
+       <div class="card-hover rounded-2xl p-5 text-center" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-4xl mb-3">
+         🥚
+        </div>
+        <h3 class="font-bold mb-1" style="color: #333;">Eggs</h3>
+        <div class="text-2xl font-black" style="color: #27AE60;">
+         160°F
+        </div>
+        <p class="text-xs mt-1" style="color: #999;">71°C</p>
+       </div>
+      </div>
+      <div class="mt-6 flex items-center gap-3 p-4 rounded-xl" style="background: rgba(39,174,96,0.08);">
+       <span class="text-2xl">🌡️</span>
+       <p class="font-semibold" style="color: #27AE60;">Pro Tip: Use a food thermometer to check!</p>
+      </div>
+     </div>
+    </section><!-- SLIDE 6: Spot the Danger -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(160deg, #ffffff 0%, #fef9f0 50%, #f0faf4 100%);">
+     <div class="max-w-5xl w-full px-10">
+      <div class="flex items-center gap-4 mb-8">
+       <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #F39C12, #F1C40F);">
+        <span class="text-3xl">⚠️</span>
+       </div>
+       <h2 id="s6-title" class="text-4xl font-black" style="color: #1a1a2e;">Spot the Danger!</h2>
+      </div>
+      <p class="text-lg mb-8" style="color: #555; font-family: 'Quicksand', sans-serif;">Use your senses like a detective! 🔍 Here's how to know if food might be unsafe:</p>
+      <div class="grid grid-cols-3 gap-5">
+       <div class="card-hover rounded-2xl p-6" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border-left: 4px solid #E74C3C;">
+        <div class="text-4xl mb-3">
+         👀
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color: #E74C3C;">Look</h3>
+        <ul class="space-y-2 text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">
+         <li>• Fuzzy mold growing</li>
+         <li>• Strange colors</li>
+         <li>• Slimy texture</li>
+        </ul>
+       </div>
+       <div class="card-hover rounded-2xl p-6" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border-left: 4px solid #F39C12;">
+        <div class="text-4xl mb-3">
+         👃
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color: #F39C12;">Smell</h3>
+        <ul class="space-y-2 text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">
+         <li>• Sour or rotten odor</li>
+         <li>• Smells "off"</li>
+         <li>• Strong bad smell</li>
+        </ul>
+       </div>
+       <div class="card-hover rounded-2xl p-6" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border-left: 4px solid #2980B9;">
+        <div class="text-4xl mb-3">
+         📅
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color: #2980B9;">Check</h3>
+        <ul class="space-y-2 text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">
+         <li>• Expiration date</li>
+         <li>• Broken packaging</li>
+         <li>• Dented cans</li>
+        </ul>
+       </div>
+      </div>
+      <div class="mt-6 p-4 rounded-xl text-center" style="background: rgba(231,76,60,0.06); border: 1px dashed rgba(231,76,60,0.3);">
+       <p class="font-bold" style="color: #E74C3C;">🚫 When in doubt, throw it out!</p>
+      </div>
+     </div>
+    </section><!-- SLIDE 7: Food Safety Heroes -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(160deg, #e0f0f8 0%, #ffffff 50%, #e8f8f0 100%);">
+     <div class="max-w-5xl w-full px-10">
+      <div class="flex items-center gap-4 mb-8">
+       <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #27AE60, #2980B9);">
+        <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /> <path d="M9 12l2 2 4-4" />
+        </svg>
+       </div>
+       <h2 id="s7-title" class="text-4xl font-black" style="color: #1a1a2e;">Food Safety Heroes</h2>
+      </div>
+      <p class="text-lg mb-8" style="color: #555; font-family: 'Quicksand', sans-serif;">These everyday heroes help keep our food safe:</p>
+      <div class="grid grid-cols-2 gap-6">
+       <div class="card-hover rounded-2xl p-6 flex items-start gap-5" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-5xl flex-shrink-0">
+         👩‍🍳
+        </div>
+        <div>
+         <h3 class="font-bold text-lg mb-1" style="color: #27AE60;">Chefs &amp; Cooks</h3>
+         <p class="text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">They follow strict rules to keep restaurant food safe and clean</p>
+        </div>
+       </div>
+       <div class="card-hover rounded-2xl p-6 flex items-start gap-5" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-5xl flex-shrink-0">
+         🔬
+        </div>
+        <div>
+         <h3 class="font-bold text-lg mb-1" style="color: #2980B9;">Scientists</h3>
+         <p class="text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">They test food in labs to make sure it's safe to eat</p>
+        </div>
+       </div>
+       <div class="card-hover rounded-2xl p-6 flex items-start gap-5" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-5xl flex-shrink-0">
+         🚜
+        </div>
+        <div>
+         <h3 class="font-bold text-lg mb-1" style="color: #27AE60;">Farmers</h3>
+         <p class="text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">They grow healthy food and keep animals safe and well-fed</p>
+        </div>
+       </div>
+       <div class="card-hover rounded-2xl p-6 flex items-start gap-5" style="background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div class="text-5xl flex-shrink-0">
+         🦸
+        </div>
+        <div>
+         <h3 class="font-bold text-lg mb-1" style="color: #2980B9;">YOU!</h3>
+         <p class="text-sm" style="color: #666; font-family: 'Quicksand', sans-serif;">By learning food safety, you protect yourself and your family!</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- SLIDE 8: Remember! -->
+    <section class="slide w-full h-full flex items-center justify-center relative" style="min-width: 100%; background: linear-gradient(135deg, #e8f8f0 0%, #f0faf4 30%, #e0f0f8 70%, #e8f4fc 100%);">
+     <div class="absolute top-10 left-12 opacity-15">
+      <svg width="100" height="100"><circle cx="50" cy="50" r="45" fill="none" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="6 5" />
+      </svg>
+     </div>
+     <div class="absolute bottom-10 right-10 opacity-15">
+      <svg width="80" height="80"><rect x="10" y="10" width="60" height="60" rx="12" fill="none" stroke="#2980B9" stroke-width="2" stroke-dasharray="5 4" />
+      </svg>
+     </div>
+     <div class="text-center max-w-3xl px-8">
+      <div class="mb-6 anim-glow inline-block">
+       <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #27AE60, #2980B9);">
+        <span class="text-5xl">⭐</span>
+       </div>
+      </div>
+      <h2 id="s8-title" class="text-5xl font-black mb-6" style="color: #27AE60;">Remember!</h2>
+      <div class="grid grid-cols-2 gap-4 mb-8 text-left max-w-lg mx-auto">
+       <div class="flex items-center gap-3 p-3 rounded-xl" style="background: rgba(255,255,255,0.8);">
+        <span class="text-2xl">🧼</span><span class="font-bold" style="color: #333;">Clean</span>
+       </div>
+       <div class="flex items-center gap-3 p-3 rounded-xl" style="background: rgba(255,255,255,0.8);">
+        <span class="text-2xl">🔀</span><span class="font-bold" style="color: #333;">Separate</span>
+       </div>
+       <div class="flex items-center gap-3 p-3 rounded-xl" style="background: rgba(255,255,255,0.8);">
+        <span class="text-2xl">🔥</span><span class="font-bold" style="color: #333;">Cook</span>
+       </div>
+       <div class="flex items-center gap-3 p-3 rounded-xl" style="background: rgba(255,255,255,0.8);">
+        <span class="text-2xl">❄️</span><span class="font-bold" style="color: #333;">Chill</span>
+       </div>
+      </div>
+      <p class="text-xl font-semibold mb-6" style="color: #2980B9; font-family: 'Quicksand', sans-serif;">You are now a Food Safety Champion! 🏆</p>
+      <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-bold" style="background: linear-gradient(135deg, #27AE60, #2980B9);">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" />
+       </svg> Stay Safe, Eat Smart!
+      </div>
+      <div class="absolute top-16 right-20 text-4xl anim-float opacity-60">
+       🥗
+      </div>
+      <div class="absolute bottom-20 left-16 text-3xl anim-float-delay opacity-60">
+       🫐
+      </div>
+     </div>
+    </section>
+   </div><!-- Navigation -->
+   <div class="absolute bottom-6 left-0 w-full flex items-center justify-center gap-4 z-20">
+    <button id="btn-prev" class="btn-nav w-11 h-11 rounded-full flex items-center justify-center text-white shadow-lg" style="background: linear-gradient(135deg, #2980B9, #3498DB);" aria-label="Previous slide">
+     <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" />
+     </svg></button>
+    <div id="nav-dots" class="flex items-center gap-2"></div><button id="btn-next" class="btn-nav w-11 h-11 rounded-full flex items-center justify-center text-white shadow-lg" style="background: linear-gradient(135deg, #27AE60, #2ECC71);" aria-label="Next slide">
+     <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6" />
+     </svg></button>
+   </div><!-- Slide Counter -->
+   <div class="absolute top-5 right-6 z-20 px-3 py-1.5 rounded-full text-sm font-bold" style="background: rgba(255,255,255,0.9); color: #555; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+    <span id="slide-num">1</span> / <span id="slide-total">8</span>
+   </div>
+  </div>
+  <script>
+    const TOTAL_SLIDES = 8;
+    let currentSlide = 0;
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    const container = document.getElementById('slide-container');
+    const dotsContainer = document.getElementById('nav-dots');
+    const progressBar = document.getElementById('progress-bar');
+    const slideNum = document.getElementById('slide-num');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyA77lLi_JCLIdR535KEfg3S0_Ge2EorPMo",
-        authDomain: "baikiemtracuoiki.firebaseapp.com",
-        projectId: "baikiemtracuoiki",
-        storageBucket: "baikiemtracuoiki.firebasestorage.app",
-        messagingSenderId: "953819948776",
-        appId: "1:953819948776:web:4e9a017a6c5fc10ed28b5d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const DANH_SACH_LOP = [
-        "Vũ Việt Anh", "Vũ Gia Bảo", "Lê Thị Liên Chi", "Bùi Anh Dũng", "Vũ Quốc Duy",
-        "Nguyễn Đăng Dương", "Nguyễn Trí Đại", "Lê Bá Đạt", "Nguyễn Văn Đạt", "Lê Minh Hạnh",
-        "Vũ Ngọc Huyền", "Lê Gia Khánh", "Nguyễn Đăng Kiên", "Vũ Đình Khánh Linh", "Mai Quang Long",
-        "Lê Văn Lộc", "Vũ Anh Minh", "Hoàng Bảo Nam", "Phạm Thị Kim Ngân", "Vũ Thu Ngân",
-        "Vũ Thị Yến Nhi", "Đàm Thị Quỳnh Như", "Phạm Hạnh Gia Phát", "Nguyễn Hoàng Thiên Phúc", "Vũ Quang Phúc",
-        "Nguyễn Nhã Phương", "Nguyễn Thị Quỳnh", "Lê Ngọc Sơn", "Đặng Thị Thanh Tâm", "Vũ Thị Minh Tâm",
-        "Lê Vũ Chí Thành", "Lê Anh Thơ", "Vũ Song Vũ"
-    ];
-
-    const selectBox = document.getElementById('studentName');
-    if(selectBox) {
-        DANH_SACH_LOP.forEach(ten => {
-            const option = document.createElement('option');
-            option.value = ten;
-            option.text = ten;
-            selectBox.appendChild(option);
-        });
+    // Create dots
+    for (let i = 0; i < TOTAL_SLIDES; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'nav-dot w-2.5 h-2.5 rounded-full';
+      dot.style.background = i === 0 ? '#27AE60' : '#ccc';
+      if (i === 0) dot.classList.add('active');
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
     }
 
-    const questions = [
-        { id: 1, text: "Câu nào dưới đây tuân thủ đúng cấu trúc: Thời gian + Địa điểm + Chủ ngữ + Hoạt động?", options: ["Sáng nay, mẹ em đi chợ tại siêu thị.", "Ở sân trường, sáng thứ hai, chúng em chào cờ.", "Sáng thứ hai, ở sân trường, chúng em chào cờ.", "Chúng em chào cờ sáng thứ hai ở sân trường."], correct: 2, explain: "Đáp án đúng là C: Sáng thứ hai (TG) + ở sân trường (ĐĐ) + chúng em (CN) + chào cờ (HĐ)." },
-        { id: 2, text: "Trong các câu sau, câu nào viết đúng theo công thức đã học?", options: ["Hôm qua, trên cành cây, chú chim hót líu lo.", "Chú chim hót líu lo trên cành cây hôm qua.", "Trên cành cây, hôm qua, chú chim hót líu lo.", "Hôm qua, chú chim hót líu lo trên cành cây."], correct: 0, explain: "Đáp án đúng là A." },
-        { id: 3, text: "Xác định câu đúng cấu trúc: Thời gian + Địa điểm + Chủ ngữ + Hoạt động.", options: ["Mùa hè, ve kêu râm ran trong vòm lá.", "Trong vòm lá, mùa hè, ve kêu râm ran.", "Mùa hè, trong vòm lá, ve kêu râm ran.", "Ve kêu râm ran trong vòm lá vào mùa hè."], correct: 2, explain: "Đáp án đúng là C." },
-        { id: 4, text: "Điền từ chỉ THỜI GIAN: \"....., trên cánh đồng, các bác nông dân đang gặt lúa.\"", options: ["Ở nhà", "Chăm chỉ", "Buổi sáng", "Con trâu"], correct: 2, explain: "\"Buổi sáng\" là từ chỉ thời gian." },
-        { id: 5, text: "Chọn từ chỉ THỜI GIAN: \"....., tại phòng khách, cả nhà em quây quần xem tivi.\"", options: ["Tối hôm qua", "Trên ghế sofa", "Vui vẻ", "Bố mẹ"], correct: 0, explain: "\"Tối hôm qua\" là thời gian phù hợp." },
-        { id: 6, text: "Điền từ chỉ THỜI GIAN: \"....., dưới sân trường, học sinh nô đùa vui vẻ.\"", options: ["Giờ ra chơi", "Lớp học", "Quyển sách", "Nhanh nhẹn"], correct: 0, explain: "\"Giờ ra chơi\" là mốc thời gian." },
-        { id: 7, text: "Chọn từ chỉ ĐỊA ĐIỂM: \"Sáng chủ nhật, ....., mẹ dắt em đi mua sách.\"", options: ["vào lúc 8 giờ", "tại nhà sách", "chiếc xe đạp", "vui vẻ"], correct: 1, explain: "\"Tại nhà sách\" là địa điểm." },
-        { id: 8, text: "Điền từ chỉ ĐỊA ĐIỂM: \"Đêm rằm, ....., chúng em phá cỗ trung thu.\"", options: ["giữa sân đình", "ngày mai", "chị Hằng", "múa lân"], correct: 0, explain: "\"Giữa sân đình\" là địa điểm." },
-        { id: 9, text: "Chọn từ chỉ ĐỊA ĐIỂM: \"Giờ Tập đọc, ....., cô giáo đang say sưa giảng bài.\"", options: ["trên bục giảng", "buổi sáng", "quyển vở", "ngoài đường"], correct: 0, explain: "Cô giáo giảng bài \"trên bục giảng\"." },
-        { id: 10, text: "Chọn CHỦ NGỮ thích hợp: \"Sáng sớm, trên ngọn cây, ..... hót líu lo.\"", options: ["con mèo", "chú chim sẻ", "chiếc lá", "ông mặt trời"], correct: 1, explain: "Chỉ có \"chú chim sẻ\" mới biết hót." },
-        { id: 11, text: "Điền CHỦ NGỮ: \"Chiều qua, tại bể bơi, ..... đang tập bơi.\"", options: ["quyển sách", "bé Lan", "cái bàn", "bầu trời"], correct: 1, explain: "\"Bé Lan\" là người có thể tập bơi." },
-        { id: 12, text: "Chọn CHỦ NGỮ: \"Mùa xuân, trong vườn, ..... đua nhau khoe sắc.\"", options: ["chú chim", "đàn cá", "muôn loài hoa", "các bạn nhỏ"], correct: 2, explain: "\"Muôn loài hoa\" khoe sắc." },
-        { id: 13, text: "Chọn HOẠT ĐỘNG: \"Vào giờ Toán, trong lớp, học sinh .....\"", options: ["chăm chú làm bài", "ngủ say sưa", "đá bóng", "xem tivi"], correct: 0, explain: "Học sinh \"chăm chú làm bài\"." },
-        { id: 14, text: "Điền HOẠT ĐỘNG: \"Sáng chủ nhật, ngoài công viên, ông bà em .....\"", options: ["đang đi tập thể dục", "đang nấu cơm", "đang ngủ", "đang học bài"], correct: 0, explain: "Ra công viên \"tập thể dục\"." },
-        { id: 15, text: "Chọn HOẠT ĐỘNG: \"Đêm giao thừa, trên bầu trời, pháo hoa .....\"", options: ["nở rực rỡ", "chạy nhảy", "hót líu lo", "bơi lội"], correct: 0, explain: "Pháo hoa \"nở rực rỡ\"." },
-        { id: 16, text: "Sắp xếp đúng: \"đang giảng bài / Cô giáo / trên bục giảng / Sáng thứ hai /.\"", options: ["Cô giáo đang giảng bài trên bục giảng Sáng thứ hai.", "Sáng thứ hai, trên bục giảng, Cô giáo đang giảng bài.", "Trên bục giảng Sáng thứ hai Cô giáo đang giảng bài.", "Sáng thứ hai Cô giáo đang giảng bài trên bục giảng."], correct: 1, explain: "Đúng: TG -> ĐĐ -> CN -> HĐ." },
-        { id: 17, text: "Thứ tự sắp xếp đúng là gì? (1) ngoài đồng / (2) Buổi sáng / (3) cày ruộng / (4) bác nông dân", options: ["2 - 1 - 4 - 3", "4 - 3 - 2 - 1", "1 - 2 - 4 - 3", "2 - 4 - 3 - 1"], correct: 0, explain: "Buổi sáng (2), ngoài đồng (1), bác nông dân (4) cày ruộng (3)." },
-        { id: 18, text: "Chọn câu sắp xếp đúng: \"đang ăn cỏ / đàn bò / Chiều tà / trên triền đê\".", options: ["Chiều tà, trên triền đê, đàn bò đang ăn cỏ.", "Đàn bò đang ăn cỏ trên triền đê chiều tà.", "Trên triền đê, chiều tà, đàn bò đang ăn cỏ.", "Chiều tà đàn bò đang ăn cỏ trên triền đê."], correct: 0, explain: "Đúng: TG -> ĐĐ -> CN -> HĐ." },
-        { id: 19, text: "Với từ gợi ý \"người mẹ\", câu nào dưới đây hay và đúng cấu trúc nhất?", options: ["Người mẹ đang nấu ăn trong bếp tối nay.", "Tối nay, trong bếp, người mẹ đang nấu bữa cơm ngon.", "Trong bếp tối nay người mẹ đang nấu ăn.", "Người mẹ tối nay nấu ăn trong bếp."], correct: 1, explain: "Câu B đầy đủ và đúng thứ tự." },
-        { id: 20, text: "Với gợi ý \"bầu trời trong xanh\", hãy chọn câu đúng cấu trúc:", options: ["Mùa thu, trên cao, bầu trời trong xanh không một gợn mây.", "Bầu trời trong xanh vào mùa thu trên cao.", "Trên cao mùa thu bầu trời trong xanh.", "Bầu trời mùa thu trên cao trong xanh."], correct: 0, explain: "Câu A đúng cấu trúc." }
-    ];
-
-    let timerInterval;
-    let secondsElapsed = 0;
-    let isSubmitting = false;
-
-    // Render câu hỏi ngay khi tải trang
-    function renderQuiz() {
-        const container = document.getElementById('questions-container');
-        if(!container) return;
-        let html = '';
-        questions.forEach((q, index) => {
-            html += `
-                <div class="question-card">
-                    <span class="question-number">Câu ${q.id}</span>
-                    <div class="question-text">${q.text}</div>
-                    <div class="options">
-                        ${q.options.map((opt, i) => `<label class="option-label" id="lbl-${index}-${i}"><input type="radio" name="q${index}" value="${i}"> ${opt}</label>`).join('')}
-                    </div>
-                    <div class="explanation" id="explain-${index}"><strong>💡 Giải thích:</strong> ${q.explain}</div>
-                </div>`;
-        });
-        container.innerHTML = html;
+    function goToSlide(index) {
+      if (index < 0 || index >= TOTAL_SLIDES) return;
+      currentSlide = index;
+      container.scrollTo({ left: container.offsetWidth * index, behavior: 'smooth' });
+      updateUI();
     }
 
-    // Bắt đầu làm bài
-    window.startExam = function() {
-        const name = document.getElementById('studentName').value;
-        if (!name) { alert("Em chưa chọn tên kìa!"); return; }
+    function updateUI() {
+      const dots = dotsContainer.children;
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].style.background = i === currentSlide ? '#27AE60' : '#ccc';
+        dots[i].classList.toggle('active', i === currentSlide);
+      }
+      progressBar.style.width = ((currentSlide + 1) / TOTAL_SLIDES * 100) + '%';
+      slideNum.textContent = currentSlide + 1;
+      btnPrev.style.opacity = currentSlide === 0 ? '0.4' : '1';
+      btnNext.style.opacity = currentSlide === TOTAL_SLIDES - 1 ? '0.4' : '1';
+    }
 
-        document.getElementById('startBtn').classList.add('hidden'); // Ẩn nút bắt đầu
-        document.getElementById('examArea').classList.remove('hidden'); // Hiện bài thi
-        document.getElementById('studentName').disabled = true; // Khóa tên
+    btnPrev.addEventListener('click', () => goToSlide(currentSlide - 1));
+    btnNext.addEventListener('click', () => goToSlide(currentSlide + 1));
 
-        // Bắt đầu đếm giờ
-        timerInterval = setInterval(() => {
-            secondsElapsed++;
-            const m = Math.floor(secondsElapsed / 60);
-            const s = secondsElapsed % 60;
-            document.getElementById('timerDisplay').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-        }, 1000);
-    };
+    // Keyboard nav
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToSlide(currentSlide + 1);
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goToSlide(currentSlide - 1);
+    });
 
-    function stopTimer() { clearInterval(timerInterval); }
-
-    async function submitQuiz() {
-        if (isSubmitting) return;
-        const name = document.getElementById('studentName').value;
-
-        isSubmitting = true;
-        stopTimer();
-        
-        const btn = document.getElementById('submitBtn');
-        const loader = document.getElementById('btnLoader');
-        const btnText = document.getElementById('btnText');
-        const dbStatus = document.getElementById('db-status');
-        const finalTimeStr = document.getElementById('timerDisplay').innerText;
-
-        btn.disabled = true;
-        loader.style.display = 'inline-block';
-        btnText.innerText = 'ĐANG CHẤM...';
-
-        let score = 0;
-        let detailResult = [];
-
-        questions.forEach((q, index) => {
-            const selected = document.querySelector(`input[name="q${index}"]:checked`);
-            document.getElementById(`explain-${index}`).style.display = 'block';
-            
-            const radios = document.getElementsByName(`q${index}`);
-            radios.forEach(r => r.disabled = true);
-
-            q.options.forEach((_, i) => document.getElementById(`lbl-${index}-${i}`).classList.remove('correct', 'incorrect'));
-            
-            let studentAnswer = -1;
-            if (selected) {
-                studentAnswer = parseInt(selected.value);
-                const lbl = document.getElementById(`lbl-${index}-${studentAnswer}`);
-                if (studentAnswer === q.correct) { score++; lbl.classList.add('correct'); }
-                else { lbl.classList.add('incorrect'); document.getElementById(`lbl-${index}-${q.correct}`).classList.add('correct'); }
-            } else {
-                document.getElementById(`lbl-${index}-${q.correct}`).classList.add('correct');
-            }
-            detailResult.push({ cau: q.id, chon: studentAnswer, dung: q.correct });
-        });
-
-        const percentage = (score / questions.length) * 100;
-        let gradeText = "", gradeColor = "";
-        if (percentage >= 90) { gradeText = "Xuất Sắc!"; gradeColor = "#22c55e"; }
-        else if (percentage >= 75) { gradeText = "Giỏi Quá!"; gradeColor = "#3b82f6"; }
-        else if (percentage >= 50) { gradeText = "Khá Tốt!"; gradeColor = "#eab308"; }
-        else { gradeText = "Cần Cố Gắng!"; gradeColor = "#ef4444"; }
-
-        document.getElementById('finalScore').innerText = `${score}/${questions.length}`;
-        document.getElementById('finalGrade').innerText = gradeText;
-        document.getElementById('finalGradeBadge').style.backgroundColor = gradeColor;
-        document.getElementById('finalGradeBadge').innerText = `${Math.round(percentage)}%`;
-        document.getElementById('timeResult').innerText = finalTimeStr;
-        document.getElementById('result-overlay').style.display = 'flex';
-
-        if (db) {
-            try {
-                await addDoc(collection(db, "on_tap_cau_4_thanh_phan"), {
-                    ten_hoc_sinh: name,
-                    diem_so: score,
-                    tong_cau: questions.length,
-                    thoi_gian_giay: secondsElapsed,
-                    thoi_gian_lam_bai: finalTimeStr,
-                    ngay_nop: serverTimestamp(),
-                    chi_tiet: detailResult
-                });
-                dbStatus.innerHTML = "<span style='color:green; font-weight:bold'>✔ Đã lưu kết quả thành công!</span>";
-                btnText.innerText = "ĐÃ NỘP XONG";
-            } catch (error) {
-                console.error(error);
-                dbStatus.innerHTML = "<span style='color:red'>Lỗi gửi bài.</span>";
-                isSubmitting = false;
-                btn.disabled = false;
-                btnText.innerText = "THỬ NỘP LẠI";
-            }
+    // Detect scroll snaps
+    let scrollTimeout;
+    container.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const newSlide = Math.round(container.scrollLeft / container.offsetWidth);
+        if (newSlide !== currentSlide) {
+          currentSlide = newSlide;
+          updateUI();
         }
-        loader.style.display = 'none';
+      }, 80);
+    });
+
+    // Default config
+    const defaultConfig = {
+      background_color: '#f0faf4',
+      surface_color: '#ffffff',
+      text_color: '#1a1a2e',
+      primary_action: '#27AE60',
+      secondary_action: '#2980B9',
+      font_family: 'Nunito',
+      font_size: 16,
+      main_title: 'Safe Food',
+      subtitle: 'Keeping Our Food Clean & Healthy',
+      slide2_title: 'What Is Food Safety?',
+      slide3_title: 'Wash Your Hands!',
+      slide4_title: 'Keep Food Fresh',
+      slide5_title: 'Cook It Right',
+      slide6_title: 'Spot the Danger!',
+      slide7_title: 'Food Safety Heroes',
+      slide8_title: 'Remember!'
+    };
+
+    function applyConfig(config) {
+      const bg = config.background_color || defaultConfig.background_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+      const text = config.text_color || defaultConfig.text_color;
+      const primary = config.primary_action || defaultConfig.primary_action;
+      const secondary = config.secondary_action || defaultConfig.secondary_action;
+      const font = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      const wrapper = document.getElementById('app-wrapper');
+      wrapper.style.background = bg;
+      wrapper.style.fontFamily = `${font}, 'Quicksand', sans-serif`;
+
+      // Titles
+      const t1 = document.getElementById('title-main');
+      if (t1) { t1.textContent = config.main_title || defaultConfig.main_title; t1.style.color = primary; t1.style.fontSize = `${baseSize * 3.75}px`; }
+      const t1s = document.getElementById('title-sub');
+      if (t1s) { t1s.textContent = config.subtitle || defaultConfig.subtitle; t1s.style.color = secondary; t1s.style.fontSize = `${baseSize * 1.5}px`; }
+
+      const slideTitles = [
+        { id: 's2-title', key: 'slide2_title' },
+        { id: 's3-title', key: 'slide3_title' },
+        { id: 's4-title', key: 'slide4_title' },
+        { id: 's5-title', key: 'slide5_title' },
+        { id: 's6-title', key: 'slide6_title' },
+        { id: 's7-title', key: 'slide7_title' },
+        { id: 's8-title', key: 'slide8_title' }
+      ];
+
+      slideTitles.forEach(st => {
+        const el = document.getElementById(st.id);
+        if (el) {
+          el.textContent = config[st.key] || defaultConfig[st.key];
+          el.style.color = text;
+          el.style.fontSize = `${baseSize * 2.5}px`;
+        }
+      });
+
+      // Update slide 8 title color to primary
+      const s8 = document.getElementById('s8-title');
+      if (s8) s8.style.color = primary;
+
+      // Nav buttons
+      btnPrev.style.background = `linear-gradient(135deg, ${secondary}, ${secondary}dd)`;
+      btnNext.style.background = `linear-gradient(135deg, ${primary}, ${primary}dd)`;
+
+      // Progress bar
+      progressBar.style.background = `linear-gradient(90deg, ${primary}, ${secondary})`;
     }
 
-    window.submitQuiz = submitQuiz;
-    renderQuiz(); // Chạy ngay khi tải trang
-</script>
+    // Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: async (config) => {
+          applyConfig(config);
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+            { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+            { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+            { get: () => config.primary_action || defaultConfig.primary_action, set: (v) => { config.primary_action = v; window.elementSdk.setConfig({ primary_action: v }); } },
+            { get: () => config.secondary_action || defaultConfig.secondary_action, set: (v) => { config.secondary_action = v; window.elementSdk.setConfig({ secondary_action: v }); } }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['main_title', config.main_title || defaultConfig.main_title],
+          ['subtitle', config.subtitle || defaultConfig.subtitle],
+          ['slide2_title', config.slide2_title || defaultConfig.slide2_title],
+          ['slide3_title', config.slide3_title || defaultConfig.slide3_title],
+          ['slide4_title', config.slide4_title || defaultConfig.slide4_title],
+          ['slide5_title', config.slide5_title || defaultConfig.slide5_title],
+          ['slide6_title', config.slide6_title || defaultConfig.slide6_title],
+          ['slide7_title', config.slide7_title || defaultConfig.slide7_title],
+          ['slide8_title', config.slide8_title || defaultConfig.slide8_title]
+        ])
+      });
+    }
 
-</body>
+    // Init
+    applyConfig(defaultConfig);
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e086555b26a2f3c',t:'MTc3NDIxNjA1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
